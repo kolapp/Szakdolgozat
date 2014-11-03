@@ -9,6 +9,7 @@
 
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
+#define DEBUG_ON
 
 
 #define CTS P2_0
@@ -117,8 +118,7 @@ void SendID() {
 	unsigned char *s;
 
 	s="MA-DAQ";
-	do
-	{
+	do {
 		if (SIn()==27) break;
 		SOut(*s);
 		if (*s) s++;
@@ -129,10 +129,10 @@ void SendID() {
 
 void ADC0_irqhandler (void) __interrupt 13 {
 	AD0INT = 0;	
-	
-	DEBUG_PORT = !DEBUG_PORT; // debug
-/*
-	DEBUG_PORT = 1; // debug
+
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 1;
+#endif
 	
 	// jel generalas mintakbol
 	DAC0L = samples[i];
@@ -142,8 +142,10 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	i++;
 	if (i >= elemszam) i = 0;
 	
-	DEBUG_PORT = 0; // debug
-*/
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 0;
+#endif
+
 }
 
 /*
@@ -268,6 +270,15 @@ void main() {
 			
 			SFRPAGE   = ADC0_PAGE;
 			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB
+			
+			// teszt:
+			CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits
+			CLR_BIT(ADC0CF, 6);
+			SET_BIT(ADC0CF, 5);
+			CLR_BIT(ADC0CF, 4);
+			
+			// 0100: 216 kHz
+
 		}
 		
 	}

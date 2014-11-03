@@ -1,15 +1,15 @@
-- labview-ból n elemû tömböt küldeni (concat-tal)
+*- labview-ból n elemû tömböt küldeni (concat-tal)
 - 2 csatornán mérni: eredeti input, kapott output
-- hogy kell belefutni az adc interruptba? timer2 irq ki van kapcsolva.
+*- hogy kell belefutni az adc interruptba? timer2 irq ki van kapcsolva.
 
 
 
 - küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
-- a madaq eredeti funkciót nem kell megtartani
+*- a madaq eredeti funkciót nem kell megtartani
 
 
 
-- adott frekivel kiadni - HOW?
+*- adott frekivel kiadni - HOW?
 
 még több funkció:
 - (2 csatornás szinkronjel mérés)
