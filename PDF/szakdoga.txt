@@ -1,0 +1,3 @@
+Gingl:
+- Szkd("Makan Gergely", "Mágneses hiszterézis mérése virtuális méréstechnikával", "fizika BSc", "MakanGergely.pdf", 2010);
+- Szkd("Vadai Gergely", "Kettõs inga kaotikus mozgásának vizsgálata virtuális méréstechnikával", "fizika BSc", "VadaiGergely.pdf", 2010);

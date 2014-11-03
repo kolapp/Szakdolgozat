@@ -1,0 +1,4 @@
+- 3.3 kHz-nél gyorsabban nem tud futni az ADC, mert rosszul van beállítva
+- elvileg 1 MHz-el is lehe vele mintavételezni
+- nekem kb 100 kHz-es mintavételi frekit kéne elérni -->> read datasheeeeit
+- !!! datasheeit/ 58. oldal: AD0SC3-0 biteket írogatni, hátha jobb lesz az adc freq
