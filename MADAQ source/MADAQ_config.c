@@ -21,16 +21,13 @@ void Timer_Init()
     TH1       = 0x98;
     SFRPAGE   = TMR2_PAGE;
     TMR2CN    = 0x04;
-	
-    TMR2CF    = 0x08; // tmr2 clk = sysclk
-	// TMR2CF    = 0x18; // tmr2 clk = sysclk/2 
-	
+    TMR2CF    = 0x08;
     RCAP2L    = 0x9C;
     RCAP2H    = 0xFF;
     SFRPAGE   = TMR3_PAGE;
     TMR3CN    = 0x04;
     TMR3CF    = 0x08;
-	RCAP3L    = 0xB2;
+    RCAP3L    = 0xB2;
     RCAP3H    = 0xFF;
 }
 
@@ -39,14 +36,8 @@ void UART_Init()
     SFRPAGE   = UART0_PAGE;
     SCON0     = 0x50;
     SSTA0     = 0x1A;
-	// enelkul nem jo a sys info:
-    TI0=1;
-    RI0=0;
     SFRPAGE   = UART1_PAGE;
     SCON1     = 0x50;
-	// enelkul nem jo a sys info:
-    TI1=1;
-    RI1=0;
 }
 
 void SMBus_Init()
@@ -63,7 +54,7 @@ void ADC_Init()
     ADC0CN    = 0x0C;
     SFRPAGE   = ADC1_PAGE;
     ADC1CF    = 0x10;
-    ADC1CN    = 0x8C;
+    ADC1CN    = 0x0C;
 }
 
 void DAC_Init()
@@ -130,9 +121,7 @@ void Port_IO_Init()
     // P3.7  -  Unassigned,  Open-Drain, Digital
 
     SFRPAGE   = CONFIG_PAGE;
-    P0MDOUT   = 0x01;
-	P0MDOUT = P0MDOUT | 0x04; // set P0.2 as push-pull
-	
+    P0MDOUT   = 0x05;
     P2MDOUT   = 0x7A;
     P3MDOUT   = 0x07;
     P4MDOUT   = 0xE0;
@@ -145,13 +134,8 @@ void Port_IO_Init()
 
 void Oscillator_Init()
 {
-    int i = 0;
     SFRPAGE   = CONFIG_PAGE;
-    OSCXCN    = 0x67;
-    for (i = 0; i < 3000; i++);  // Wait 1ms for initialization
-    while ((OSCXCN & 0x80) == 0);
-    CLKSEL    = 0x01;
-    OSCICN    = 0x03;
+    OSCICN    = 0x83;
 }
 
 void Interrupts_Init()
