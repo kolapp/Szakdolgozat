@@ -9,12 +9,13 @@
 
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
-#define DEBUG_ON
+// #define DEBUG_ON
 
 
 #define CTS P2_0
 #define RTS P2_1
 
+__bit evenOdd = 0; // signal-gen delay
 __bit handshake; // handshaking needed
 INT8U dly_cycles = 225;
 INT32U sysclk = 24000000;
@@ -22,10 +23,14 @@ INT16U samplingfreq = 500;
 
 
 INT16U i = 0;
+INT16U j = 0;
 
 // jelgenerator mintai
 __xdata INT16U samples[512];
+__xdata INT16U input_measure[512];
+__xdata INT16U output_measure[512];
 INT16U elemszam = 0;
+INT16U adc0_data = 0;
 
 
 void Delay_ms(short ms) {
@@ -127,21 +132,55 @@ void SendID() {
 }
 
 
+void Send_ADC_data() {
+	INT8U i = 0;
+	
+	 // Disable ADC0
+	SFRPAGE   = ADC0_PAGE;
+	CLR_BIT(ADC0CN, 7);
+
+	// meresek kuldese PC-re
+	for (i=0; i<elemszam; i++) {
+		// teszt:
+		SOut(samples[i] >> 8); // elkuldi a meresek high byte-jat
+	}
+}
+
+
 void ADC0_irqhandler (void) __interrupt 13 {
 	AD0INT = 0;	
 
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 1;
 #endif
+
+
+/* NOTE:
+- egyelore csak 1 periodust mer, aztan leall az adc
+- kicsit kokany
+
+*/
+	// index vizsgalat
+	if (i >= elemszam) {
+		i = 0;		
+		 // Disable ADC0	
+		SFRPAGE   = ADC0_PAGE;
+		CLR_BIT(ADC0CN, 7);		
+	}
 	
-	// jel generalas mintakbol
-	DAC0L = samples[i];
-	DAC0H = samples[i] >> 8;	
-	
-	// index noveles [0, elemszam]
+	// meres
+	adc0_data = (ADC0H << 8) | ADC0L; // kiszedi az ADC erteket	
+	output_measure[i] = adc0_data; // gyüjti a mintakat
 	i++;
 	if (i >= elemszam) i = 0;
 	
+	// jel generalas mintakbol
+	DAC0L = samples[i];
+	DAC0H = samples[i] >> 8;
+	// tomb-index [0, elemszam]
+	i++;
+	
+
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 0;
 #endif
@@ -195,13 +234,13 @@ void main() {
 	
 	Init_Device();	
 	
-	// enelkul nem jo a sys info:
+	// enelkul nem jo az UART0
 	SFRPAGE = UART0_PAGE;
     TI0 = 1;
     RI0 = 0;
-    SFRPAGE = UART1_PAGE;
-    TI1 = 1;
-    RI1 = 0;
+    // SFRPAGE = UART1_PAGE; // UART1 most nem kell
+    // TI1 = 1;
+    // RI1 = 0;
 	
 	CheckSRAMs();
 	
@@ -225,6 +264,11 @@ void main() {
 		// system info
 		if (c=='I') {
 			SendID();
+		}
+		
+		// s, mint Send
+		if (c=='S') {
+			Send_ADC_data();
 		}
 		
 		// set DAC0
@@ -281,14 +325,13 @@ void main() {
 			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB
 			
 			// teszt:
-			CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits
-			CLR_BIT(ADC0CF, 6);
-			SET_BIT(ADC0CF, 5);
-			CLR_BIT(ADC0CF, 4);
+			// CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits
+			// CLR_BIT(ADC0CF, 6);
+			// SET_BIT(ADC0CF, 5);
+			// CLR_BIT(ADC0CF, 4);
 			
 			// 0100: 216 kHz
 
 		}
-		
 	}
 }

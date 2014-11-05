@@ -36,8 +36,6 @@ void UART_Init()
     SFRPAGE   = UART0_PAGE;
     SCON0     = 0x50;
     SSTA0     = 0x1A;
-    SFRPAGE   = UART1_PAGE;
-    SCON1     = 0x50;
 }
 
 void SMBus_Init()
