@@ -9,7 +9,7 @@
 
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
-// #define DEBUG_ON
+#define DEBUG_ON
 
 
 #define CTS P2_0
@@ -133,7 +133,7 @@ void SendID() {
 
 
 void Send_ADC_data() {
-	INT8U i = 0;
+	INT16U i = 0;
 	
 	 // Disable ADC0
 	SFRPAGE   = ADC0_PAGE;
@@ -154,25 +154,17 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	DEBUG_PORT = 1;
 #endif
 
-
-/* NOTE:
-- egyelore csak 1 periodust mer, aztan leall az adc
-- kicsit kokany
-
-*/
 	// index vizsgalat
 	if (i >= elemszam) {
 		i = 0;		
 		 // Disable ADC0	
-		SFRPAGE   = ADC0_PAGE;
-		CLR_BIT(ADC0CN, 7);		
+		// SFRPAGE   = ADC0_PAGE;
+		// CLR_BIT(ADC0CN, 7); // 1 periodust mer, aztan leall az adc	
 	}
 	
 	// meres
 	adc0_data = (ADC0H << 8) | ADC0L; // kiszedi az ADC erteket	
 	output_measure[i] = adc0_data; // gyüjti a mintakat
-	i++;
-	if (i >= elemszam) i = 0;
 	
 	// jel generalas mintakbol
 	DAC0L = samples[i];

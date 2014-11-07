@@ -2,12 +2,8 @@
 - 2 csatornán mérni: eredeti input, kapott output
 *- hogy kell belefutni az adc interruptba? timer2 irq ki van kapcsolva.
 
-
-
 - küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
 *- a madaq eredeti funkciót nem kell megtartani
-
-
 
 *- adott frekivel kiadni - HOW?
 
@@ -16,3 +12,10 @@ még több funkció:
 - logikai jelanalizátor
 - validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
 - can, spi kommunikációkat implementálni labview-ban? a drót ki van kötve hardveresen, implementálnva nincs
+
+
+szûrõzés:
+- mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
+- vannak félig elõre megépített szûrõk (breadboard helyett)
+- szûrõáramkört tervezni: "az poén"
+- http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
