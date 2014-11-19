@@ -31,6 +31,7 @@ __xdata INT16U input_measure[512];
 __xdata INT16U output_measure[512];
 INT16U elemszam = 0;
 INT16U adc0_data = 0;
+INT16U adc1_data = 0;
 
 
 void Delay_ms(short ms) {
@@ -138,12 +139,28 @@ void Send_ADC_data() {
 	 // Disable ADC0
 	SFRPAGE   = ADC0_PAGE;
 	CLR_BIT(ADC0CN, 7);
+	
+	SFRPAGE   = ADC1_PAGE;
+	CLR_BIT(ADC1CN, 7);
 
 	// meresek kuldese PC-re
 	for (i=0; i<elemszam; i++) {
 		// teszt:
-		SOut(samples[i] >> 8); // elkuldi a meresek high byte-jat
+		SOut(output_measure[i] >> 8); // elkuldi a meresek high byte-jat
 	}
+	
+	for (i=0; i<elemszam; i++) {
+		SOut(input_measure[i] >> 8);
+	}
+}
+
+
+void ADC1_irqhandler (void) __interrupt 15 {
+	AD1INT = 0;	
+	
+	// NEM BIZTOS:
+	adc1_data = (ADC1H << 8) | ADC1L; // kiszedi az ADC erteket	
+	input_measure[i] = adc1_data; // gyüjti a mintakat
 }
 
 
@@ -157,9 +174,9 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	// index vizsgalat
 	if (i >= elemszam) {
 		i = 0;		
-		 // Disable ADC0	
+		// Disable ADC0	
 		// SFRPAGE   = ADC0_PAGE;
-		// CLR_BIT(ADC0CN, 7); // 1 periodust mer, aztan leall az adc	
+		// AD0EN = 0; // 1 periodust mer, aztan leall az adc	
 	}
 	
 	// meres
@@ -178,6 +195,7 @@ void ADC0_irqhandler (void) __interrupt 13 {
 #endif
 
 }
+
 
 /*
 void TMR2_irqhandler (void) __interrupt 5 {
@@ -289,6 +307,10 @@ void main() {
 		else if (c=='G') {
 			SFRPAGE   = ADC0_PAGE;
 			CLR_BIT(ADC0CN, 7); // Disable ADC0
+			
+			// ez elrontja a comm-t
+			// SFRPAGE   = ADC1_PAGE;
+			// AD1EN = 0; // Disable ADC1
 
 			// bekeri hany elemet kell beolvasni
 			elemszam = SInOut();
@@ -309,12 +331,15 @@ void main() {
 		}
 		
 		// tomb [g]eneralas
-		else if (c=='g') {		
+		else if (c=='g') {
 		    SFRPAGE   = DAC0_PAGE;
 		    DAC0CN    = 0x84;
 			
 			SFRPAGE   = ADC0_PAGE;
 			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB
+			
+			// SFRPAGE   = ADC1_PAGE;
+			// SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
 			
 			// teszt:
 			// CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits

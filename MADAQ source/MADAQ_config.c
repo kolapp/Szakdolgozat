@@ -140,6 +140,7 @@ void Interrupts_Init()
 {
     IE        = 0x80;
     EIE1      = 0x80;
+    EIE2      = 0x02;
 }
 
 // Initialization function for device,
