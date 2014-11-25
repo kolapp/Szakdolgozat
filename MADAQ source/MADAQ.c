@@ -338,8 +338,8 @@ void main() {
 			SFRPAGE   = ADC0_PAGE;
 			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB
 			
-			// SFRPAGE   = ADC1_PAGE;
-			// SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
+			SFRPAGE   = ADC1_PAGE;
+			SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
 			
 			// teszt:
 			// CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits
