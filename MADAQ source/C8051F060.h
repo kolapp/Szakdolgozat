@@ -21,6 +21,10 @@
 #ifndef C8051F060_H
 #define C8051F060_H
 
+/* SAJAT MOD */
+
+__sfr16 __at 0xBEBF ADC0;
+
 
 /*  BYTE Registers  */
 

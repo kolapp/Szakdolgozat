@@ -7,10 +7,12 @@
 #define XRAM(addr) (*((unsigned char __xdata *)(addr)))
 #define SET_ADDRESS_HI(x) (P3=(P3 & 0xF8) | (((x)>>16) & 0x07));
 
+#define sysclk 24500000
+#define num_of_samples 256
+
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
-#define DEBUG_ON
-
+// #define DEBUG_ON
 
 #define CTS P2_0
 #define RTS P2_1
@@ -18,17 +20,14 @@
 __bit evenOdd = 0; // signal-gen delay
 __bit handshake; // handshaking needed
 INT8U dly_cycles = 225;
-INT32U sysclk = 24000000;
 INT16U samplingfreq = 500;
 
-
-INT16U i = 0;
-INT16U j = 0;
+INT8U i = 0; // !!!
 
 // jelgenerator mintai
-__xdata INT16U samples[512];
-__xdata INT16U input_measure[512];
-__xdata INT16U output_measure[512];
+__xdata INT16U samples[num_of_samples];
+__xdata INT16U input_measure[num_of_samples];
+__xdata INT16U output_measure[num_of_samples];
 INT16U elemszam = 0;
 INT16U adc0_data = 0;
 INT16U adc1_data = 0;
@@ -154,13 +153,13 @@ void Send_ADC_data() {
 	}
 }
 
-
+// hint: eloszor a 13-mas interrupt hivodik
 void ADC1_irqhandler (void) __interrupt 15 {
 	AD1INT = 0;	
 	
 	// NEM BIZTOS:
-	adc1_data = (ADC1H << 8) | ADC1L; // kiszedi az ADC erteket	
-	input_measure[i] = adc1_data; // gyüjti a mintakat
+	// adc1_data = (ADC1H << 8) | ADC1L; // kiszedi az ADC erteket	
+	// input_measure[i] = adc1_data; // gyüjti a mintakat
 }
 
 
@@ -176,12 +175,11 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		i = 0;		
 		// Disable ADC0	
 		// SFRPAGE   = ADC0_PAGE;
-		// AD0EN = 0; // 1 periodust mer, aztan leall az adc	
+		// AD0EN = 0; // 1 periodust mer, utana leall az adc	
 	}
 	
 	// meres
-	adc0_data = (ADC0H << 8) | ADC0L; // kiszedi az ADC erteket	
-	output_measure[i] = adc0_data; // gyüjti a mintakat
+	output_measure[i] = (ADC0H << 8) | ADC0L; // gyüjti a mintakat
 	
 	// jel generalas mintakbol
 	DAC0L = samples[i];
@@ -320,7 +318,6 @@ void main() {
 			for (i=0; i<elemszam; i++) {
 				samples[i] = SInOut();
 				samples[i] = (samples[i] << 8) + SInOut();
-
 			}			
 		}
 		
