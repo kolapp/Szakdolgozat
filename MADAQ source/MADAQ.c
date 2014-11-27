@@ -8,11 +8,11 @@
 #define SET_ADDRESS_HI(x) (P3=(P3 & 0xF8) | (((x)>>16) & 0x07));
 
 #define sysclk 24500000
-#define num_of_samples 256
+#define NUM_OF_SAMPLES 256
 
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
-// #define DEBUG_ON
+#define DEBUG_ON
 
 #define CTS P2_0
 #define RTS P2_1
@@ -25,13 +25,10 @@ INT16U samplingfreq = 500;
 INT8U i = 0; // !!!
 
 // jelgenerator mintai
-__xdata INT16U samples[num_of_samples];
-__xdata INT16U input_measure[num_of_samples];
-__xdata INT16U output_measure[num_of_samples];
+__xdata INT16U samples[NUM_OF_SAMPLES];
+__xdata INT16U input_measure[NUM_OF_SAMPLES];
+__xdata INT16U output_measure[NUM_OF_SAMPLES];
 INT16U elemszam = 0;
-INT16U adc0_data = 0;
-INT16U adc1_data = 0;
-
 
 void Delay_ms(short ms) {
 	short i;
@@ -155,21 +152,26 @@ void Send_ADC_data() {
 
 // hint: eloszor a 13-mas interrupt hivodik
 void ADC1_irqhandler (void) __interrupt 15 {
+
 	AD1INT = 0;	
+	// output_measure[i] = (ADC1H << 8) | ADC1L;
+	input_measure[i] = ADC1; // gyüjti a mintakat
+
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 0; // OFF
+#endif
 	
-	// NEM BIZTOS:
-	// adc1_data = (ADC1H << 8) | ADC1L; // kiszedi az ADC erteket	
-	// input_measure[i] = adc1_data; // gyüjti a mintakat
 }
 
 
 void ADC0_irqhandler (void) __interrupt 13 {
-	AD0INT = 0;	
 
 #ifdef DEBUG_ON	
-	DEBUG_PORT = 1;
+	DEBUG_PORT = 1; // ON
 #endif
 
+	AD0INT = 0;	
+	
 	// index vizsgalat
 	if (i >= elemszam) {
 		i = 0;		
@@ -177,20 +179,16 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		// SFRPAGE   = ADC0_PAGE;
 		// AD0EN = 0; // 1 periodust mer, utana leall az adc	
 	}
-	
+
 	// meres
-	output_measure[i] = (ADC0H << 8) | ADC0L; // gyüjti a mintakat
-	
+	// output_measure[i] = (ADC0H << 8) | ADC0L; // gyüjti a mintakat (utasitas 2.325 mikro sec - 57 orajel)
+	output_measure[i] = ADC0; // gyüjti a mintakat (utasitas 1.736 mikro sec - 43 orajel)
+		
 	// jel generalas mintakbol
 	DAC0L = samples[i];
 	DAC0H = samples[i] >> 8;
 	// tomb-index [0, elemszam]
 	i++;
-	
-
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 0;
-#endif
 
 }
 
