@@ -20,10 +20,7 @@ void Timer_Init()
     CKCON     = 0x10;
     TH1       = 0x98;
     SFRPAGE   = TMR2_PAGE;
-    TMR2CN    = 0x04;
     TMR2CF    = 0x08;
-    RCAP2L    = 0x9C;
-    RCAP2H    = 0xFF;
     SFRPAGE   = TMR3_PAGE;
     TMR3CN    = 0x04;
     TMR3CF    = 0x08;
@@ -138,7 +135,7 @@ void Oscillator_Init()
 
 void Interrupts_Init()
 {
-    IE        = 0x80;
+    IE        = 0xA0;
     EIE1      = 0x80;
     EIE2      = 0x02;
 }

@@ -19,3 +19,9 @@ szûrõzés:
 - vannak félig elõre megépített szûrõk (breadboard helyett)
 - szûrõáramkört tervezni: "az poén"
 - http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
+
+
+update (dec. 2.)
+- dógozni vizsgaidõszakban rendesen, a végére 2esnél jobb jegy alakulhat
+- ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol
+- bitmintázatokat csinálni/mérni/elõállítani? (> 10 szabad port van ám)
