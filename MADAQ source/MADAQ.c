@@ -30,7 +30,7 @@ INT8U n = 0; // !!!
 // __xdata INT8U samples[SIZE][2];
 __xdata INT16U input_measure[SIZE];
 __xdata INT16U output_measure[SIZE];
-INT16U num_of_samples = 0; // memoriaban 2*num_of_samples byte van !!!
+INT8U num_of_samples = 0; // memoriaban 2*num_of_samples byte van !!!
 
 void Delay_ms(short ms) {
 	short i;
@@ -229,7 +229,8 @@ void ADC0_irqhandler (void) __interrupt 13 {
 }
 */
 
-
+// ASM hack-el 2.2 mikro sec
+// ASM hack nelkul 3 mikrosec-ig tart
 // ============================ [ TIMER 2 ] ============================ //
 void TMR2_irqhandler (void) __interrupt 5 {
 
@@ -239,17 +240,25 @@ void TMR2_irqhandler (void) __interrupt 5 {
 	
 	
 	TF2 = 0; // ez kell, de pontosan miert?
-/*
-	// index vizsgalat
-	if (n >= num_of_samples * 2) n = 0;
+
+	// tomb-index = [0, num_of_samples * 2]
+	// if (n >= num_of_samples *2) n = 0;
+	
+	__asm // if (n >= num_of_samples *2) n = 0; // 127 mintaig mukodik csak !!!
+			clr	c
+			mov	a,_num_of_samples
+			rl a					// a *= 2; 
+			dec a					// a--;
+			subb	a,_n
+			jnc	00102$
+			mov	_n,#0x00
+		00102$:
+	__endasm;
 	
 	// jel generalas mintakbol
-	DAC0H = XRAM(n);
-	n++;
-	DAC0L = XRAM(n);	
-	// tomb-index [0, num_of_samples]
-	n++;
-*/	
+	DAC0H = XRAM(n); n++;
+	DAC0L = XRAM(n); n++;
+	
 	
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 0; // OFF
@@ -336,13 +345,13 @@ void main() {
 
 			// bekeri hany elemet kell beolvasni
 			num_of_samples = SInOut();
-			num_of_samples = (num_of_samples << 8) + SInOut();
+			// num_of_samples = (num_of_samples << 8) + SInOut(); // interrupt gyorsitashoz 8 bites-re vettem
 			
 			// tomb beolvasasa
-			for (i=0; i <= num_of_samples; i++) {
+			for (i=0; i < num_of_samples; i++) {
 				// who will know what happens here? not even me.
-				XRAM(2*i) = SInOut(); // hi
-				XRAM(2*i+1) = SInOut(); // lo
+				XRAM(2*i) = SInOut(); // paros: hi
+				XRAM(2*i+1) = SInOut(); // paratlan: lo
 			}			
 		}
 		
