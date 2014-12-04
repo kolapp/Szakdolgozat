@@ -5,6 +5,11 @@
 
 // ezek CheckSRAMs()-hoz kellenek
 #define XRAM(addr) (*((unsigned char __xdata *)(addr)))
+
+#define SAMPLES(addr) (*((unsigned char __xdata *)(addr))) // mintak [0, 255] cimen
+#define INPUT_MEASURE(addr) (*((unsigned char __xdata *)(256 + addr))) // adatok [256, 511] cimen
+#define OUTPUT_MEASURE(addr) (*((unsigned char __xdata *)(512 + addr))) // adatok [512, 767] cimen
+
 #define SET_ADDRESS_HI(x) (P3=(P3 & 0xF8) | (((x)>>16) & 0x07));
 
 #define sysclk 24500000
@@ -24,13 +29,14 @@ INT8U dly_cycles = 225;
 INT16U samplingfreq = 500;
 
 INT8U i = 0; 
+INT8U j = 0; 
 INT8U n = 0; // !!!
 
 // jelgenerator mintai
 // __xdata INT8U samples[SIZE][2];
-__xdata INT16U input_measure[SIZE];
-__xdata INT16U output_measure[SIZE];
-INT8U num_of_samples = 0; // memoriaban 2*num_of_samples byte van !!!
+// __xdata INT8U input_measure[SIZE][2];
+// __xdata INT16U output_measure[SIZE];
+INT8U num_of_samples = 0; // memoriaban 2*num_of_samples db byte van !!!
 
 void Delay_ms(short ms) {
 	short i;
@@ -172,24 +178,51 @@ void Send_ADC_data() {
 	
 	 // Disable ADC0
 	SFRPAGE   = ADC0_PAGE;
-	CLR_BIT(ADC0CN, 7);
+	AD0EN = 0;
 	
+	// ez elrontja a comm-t ???
+	// Disable ADC1
 	SFRPAGE   = ADC1_PAGE;
-	CLR_BIT(ADC1CN, 7);
+	AD1EN = 0;
 
-	// meresek kuldese PC-re
-	for (i=0; i<num_of_samples; i++) {
-		// teszt:
-		SOut(output_measure[i] >> 8); // elkuldi a meresek high byte-jat
+	// send output data to pc
+	for (i=0; i<num_of_samples *2+1; i++) {
+		SOut(OUTPUT_MEASURE(i));
+		i++;
 	}
 	
-	for (i=0; i<num_of_samples; i++) {
-		SOut(input_measure[i] >> 8);
+	// send input data
+	for (i=0; i<num_of_samples *2+1; i++) {
+		SOut(INPUT_MEASURE(i));
+		i++;
 	}
+	
 }
 
-/*
-// ============================ [ ADC 1 ] ============================ //
+
+// ============================ [ ADC 0 - output data ] ============================ //
+void ADC0_irqhandler (void) __interrupt 13 {
+
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 1; // ON
+#endif
+
+
+	AD0INT = 0;	
+	// meres
+	OUTPUT_MEASURE(i) = ADC0H;
+	i++;
+	OUTPUT_MEASURE(i) = ADC0L;
+	i++;
+
+	
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 0; // OFF
+#endif	
+}
+
+
+// ============================ [ ADC 1 - input data ] ============================ //
 // hint: eloszor a 13-mas interrupt hivodik
 void ADC1_irqhandler (void) __interrupt 15 {
 
@@ -200,7 +233,42 @@ void ADC1_irqhandler (void) __interrupt 15 {
 
 	AD1INT = 0;	
 	// output_measure[i] = (ADC1H << 8) | ADC1L;
-	input_measure[i] = ADC1; // gyüjti a mintakat
+	// input_measure[i] = ADC1; // gyüjti a mintakat
+
+	INPUT_MEASURE(j) = ADC0H;
+	j++;
+	INPUT_MEASURE(j) = ADC0L;
+	j++;
+	
+	// ha osszegyult 1 periodusnyi minta
+	if (j >= num_of_samples *2) {
+		i = 0;
+		j = 0;
+		
+		SFRPAGE   = ADC0_PAGE;
+		AD0EN = 0; // Disable ADC0
+		
+		// ez elrontja a comm-t ???
+		SFRPAGE   = ADC1_PAGE;
+		AD1EN = 0; // Disable ADC1
+	}	
+	/* nem tetszik:
+	__asm
+			clr	c
+			mov	a,_num_of_samples
+			rl a					// a *= 2; 
+			dec a					// a--;
+			subb	a,_i	
+			jc	00103$
+			mov	_i,#0x00 			// i = 0; 
+			mov	_j,#0x00 			// j = 0;
+			mov	_SFRPAGE,#0x00 		// SFRPAGE   = ADC0_PAGE;
+			clr	_AD0EN 				// AD0EN = 0; // Disable ADC0	
+			mov	_SFRPAGE,#0x01 		// SFRPAGE   = ADC1_PAGE;
+			clr	_AD1EN 				// AD1EN = 0; // Disable ADC1
+		00103$:
+	__endasm;
+	*/
 
 	
 #ifdef DEBUG_ON	
@@ -208,42 +276,20 @@ void ADC1_irqhandler (void) __interrupt 15 {
 #endif	
 }
 
-
-// ============================ [ ADC 0 ] ============================ //
-void ADC0_irqhandler (void) __interrupt 13 {
-
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 1; // ON
-#endif
-
-
-	AD0INT = 0;	
-	// meres
-	// output_measure[i] = (ADC0H << 8) | ADC0L; // gyüjti a mintakat (utasitas 2.325 mikro sec - 57 orajel)
-	output_measure[i] = ADC0; // gyüjti a mintakat (utasitas 1.736 mikro sec - 43 orajel)
-	
-	
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 0; // OFF
-#endif	
-}
-*/
 
 // ASM hack-el 2.2 mikro sec
 // ASM hack nelkul 3 mikrosec-ig tart
 // ============================ [ TIMER 2 ] ============================ //
 void TMR2_irqhandler (void) __interrupt 5 {
 
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 1; // ON
-#endif
+// #ifdef DEBUG_ON	
+	// DEBUG_PORT = 1; // ON
+// #endif
 	
 	
 	TF2 = 0; // ez kell, de pontosan miert?
 
-	// tomb-index = [0, num_of_samples * 2]
-	// if (n >= num_of_samples *2) n = 0;
-	
+	// index = [0, num_of_samples * 2]	
 	__asm // if (n >= num_of_samples *2) n = 0; // 127 mintaig mukodik csak !!!
 			clr	c
 			mov	a,_num_of_samples
@@ -256,13 +302,13 @@ void TMR2_irqhandler (void) __interrupt 5 {
 	__endasm;
 	
 	// jel generalas mintakbol
-	DAC0H = XRAM(n); n++;
-	DAC0L = XRAM(n); n++;
+	DAC0H = SAMPLES(n); n++;
+	DAC0L = SAMPLES(n); n++;
 	
 	
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 0; // OFF
-#endif
+// #ifdef DEBUG_ON	
+	// DEBUG_PORT = 0; // OFF
+// #endif
 }
 
 
@@ -352,7 +398,7 @@ void main() {
 				// who will know what happens here? not even me.
 				XRAM(2*i) = SInOut(); // paros: hi
 				XRAM(2*i+1) = SInOut(); // paratlan: lo
-			}			
+			}		
 		}
 		
 		// set TMR2 RLD value
@@ -361,29 +407,25 @@ void main() {
 			RCAP2L   = SInOut();	// lo
 		}
 		
-		// tomb [g]eneralas
+		// [g]enerate samples
 		else if (c=='g') {
 		    SFRPAGE   = DAC0_PAGE;
 		    DAC0CN    = 0x84;
 			
 			SFRPAGE   = TMR2_PAGE;
 			TR2 = 1; // enable tmr2
-			
-			// EZ MASIK UTASITASBA MEGY MAJD !!!!!!!!!!
+		}
+		
+		// measure 2 channels
+		else if (c=='m') {
+			// reset indexes
+			i = 0; 
+			j = 0;			
 			// start measurement
-			// SFRPAGE   = ADC0_PAGE;
-			// SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB			
-			// SFRPAGE   = ADC1_PAGE;
-			// SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
-			
-			// teszt:
-			// CLR_BIT(ADC0CF, 7); // Modify SAR Conversion Clock Period Bits
-			// CLR_BIT(ADC0CF, 6);
-			// SET_BIT(ADC0CF, 5);
-			// CLR_BIT(ADC0CF, 4);
-			
-			// 0100: 216 kHz
-
+			SFRPAGE   = ADC0_PAGE;
+			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB			
+			SFRPAGE   = ADC1_PAGE;
+			SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
 		}
 	}
 }
