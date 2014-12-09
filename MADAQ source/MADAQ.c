@@ -246,30 +246,29 @@ void ADC1_irqhandler (void) __interrupt 15 {
 		j = 0;
 		
 		SFRPAGE   = ADC0_PAGE;
-		AD0EN = 0; // Disable ADC0
-		
+		AD0EN = 0; // Disable ADC0		
 		// ez elrontja a comm-t ???
 		SFRPAGE   = ADC1_PAGE;
 		AD1EN = 0; // Disable ADC1
-	}	
-	/* nem tetszik:
-	__asm
+	}
+/*
+	// nem tesztelt:
+	__asm // if (j >= num_of_samples *2) {
 			clr	c
 			mov	a,_num_of_samples
 			rl a					// a *= 2; 
 			dec a					// a--;
-			subb	a,_i	
+			subb	a,_j	
 			jc	00103$
 			mov	_i,#0x00 			// i = 0; 
 			mov	_j,#0x00 			// j = 0;
-			mov	_SFRPAGE,#0x00 		// SFRPAGE   = ADC0_PAGE;
-			clr	_AD0EN 				// AD0EN = 0; // Disable ADC0	
-			mov	_SFRPAGE,#0x01 		// SFRPAGE   = ADC1_PAGE;
-			clr	_AD1EN 				// AD1EN = 0; // Disable ADC1
+			// mov	_SFRPAGE,#0x00 		// SFRPAGE   = ADC0_PAGE;
+			// clr	_AD0EN 				// AD0EN = 0; // Disable ADC0	
+			// mov	_SFRPAGE,#0x01 		// SFRPAGE   = ADC1_PAGE;
+			// clr	_AD1EN 				// AD1EN = 0; // Disable ADC1
 		00103$:
 	__endasm;
-	*/
-
+*/
 	
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 0; // OFF
@@ -420,12 +419,13 @@ void main() {
 		else if (c=='m') {
 			// reset indexes
 			i = 0; 
-			j = 0;			
+			j = 0;		
+
 			// start measurement
 			SFRPAGE   = ADC0_PAGE;
-			SET_BIT(ADC0CN, 7); // Enable ADC0, 7=MSB			
+			AD0EN = 1; // Enable ADC0, 7=MSB			
 			SFRPAGE   = ADC1_PAGE;
-			SET_BIT(ADC1CN, 7); // Enable ADC1, 7=MSB
+			AD1EN = 1; // Enable ADC1, 7=MSB
 		}
 	}
 }
