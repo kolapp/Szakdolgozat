@@ -135,9 +135,8 @@ void Oscillator_Init()
 
 void Interrupts_Init()
 {
-    IE        = 0xA0;
+    IE        = 0x80;
     EIE1      = 0x80;
-    EIE2      = 0x02;
     EIP1      = 0x80;
     EIP2      = 0x02;
 }

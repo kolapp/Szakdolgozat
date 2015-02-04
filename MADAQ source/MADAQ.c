@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "C8051F060.h"
 #include "typedef.h"
@@ -37,6 +38,7 @@ INT8U n = 0; // !!!
 // __xdata INT8U input_measure[SIZE][2];
 // __xdata INT16U output_measure[SIZE];
 INT8U num_of_samples = 0; // memoriaban 2*num_of_samples db byte van !!!
+INT8U samples_to_save = 0;
 
 void Delay_ms(short ms) {
 	short i;
@@ -174,17 +176,10 @@ unsigned char CheckSRAMs(void) {
 
 // ============================ [ Send data to PC ] ============================ //
 void Send_ADC_data() {
-	INT16U i = 0;
-	
-	 // Disable ADC0
-	SFRPAGE   = ADC0_PAGE;
-	AD0EN = 0;
-	
-	// ez elrontja a comm-t ???
-	// Disable ADC1
-	SFRPAGE   = ADC1_PAGE;
-	AD1EN = 0;
+	INT8U i = 0;
 
+	// ez csak HIGH byte-ot kuld!
+	
 	// send output data to pc
 	for (i=0; i<num_of_samples *2+1; i++) {
 		SOut(OUTPUT_MEASURE(i));
@@ -209,105 +204,39 @@ void ADC0_irqhandler (void) __interrupt 13 {
 
 
 	AD0INT = 0;	
-	// meres
-	OUTPUT_MEASURE(i) = ADC0H;
-	i++;
-	OUTPUT_MEASURE(i) = ADC0L;
-	i++;
-
 	
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 0; // OFF
-#endif	
-}
-
-
-// ============================ [ ADC 1 - input data ] ============================ //
-// hint: eloszor a 13-mas interrupt hivodik
-void ADC1_irqhandler (void) __interrupt 15 {
-
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 1; // ON
-#endif
-
-
-	AD1INT = 0;	
-	// output_measure[i] = (ADC1H << 8) | ADC1L;
-	// input_measure[i] = ADC1; // gyüjti a mintakat
-
-	INPUT_MEASURE(j) = ADC0H;
-	j++;
-	INPUT_MEASURE(j) = ADC0L;
-	j++;
-	
-	// ha osszegyult 1 periodusnyi minta
-	if (j >= num_of_samples *2) {
-		i = 0;
-		j = 0;
+	// ERROR - wtf
+	// if (samples_to_save != 0) {;}
 		
-		SFRPAGE   = ADC0_PAGE;
-		AD0EN = 0; // Disable ADC0		
-		// ez elrontja a comm-t ???
-		SFRPAGE   = ADC1_PAGE;
-		AD1EN = 0; // Disable ADC1
-	}
-/*
-	// nem tesztelt:
-	__asm // if (j >= num_of_samples *2) {
-			clr	c
-			mov	a,_num_of_samples
-			rl a					// a *= 2; 
-			dec a					// a--;
-			subb	a,_j	
-			jc	00103$
-			mov	_i,#0x00 			// i = 0; 
-			mov	_j,#0x00 			// j = 0;
-			// mov	_SFRPAGE,#0x00 		// SFRPAGE   = ADC0_PAGE;
-			// clr	_AD0EN 				// AD0EN = 0; // Disable ADC0	
-			// mov	_SFRPAGE,#0x01 		// SFRPAGE   = ADC1_PAGE;
-			// clr	_AD1EN 				// AD1EN = 0; // Disable ADC1
-		00103$:
-	__endasm;
-*/
-	
-#ifdef DEBUG_ON	
-	DEBUG_PORT = 0; // OFF
-#endif	
-}
-
-
-// ASM hack-el 2.2 mikro sec
-// ASM hack nelkul 3 mikrosec-ig tart
-// ============================ [ TIMER 2 ] ============================ //
-void TMR2_irqhandler (void) __interrupt 5 {
-
-// #ifdef DEBUG_ON	
-	// DEBUG_PORT = 1; // ON
-// #endif
-	
-	
-	TF2 = 0; // ez kell, de pontosan miert?
-
-	// index = [0, num_of_samples * 2]	
-	__asm // if (n >= num_of_samples *2) n = 0; // 127 mintaig mukodik csak !!!
+	i = n; // kezdoindex beallitas
+	j = n;
+	// ------ CSATORNA #1 MERES ------ 
+	SFRPAGE = ADC1_PAGE;
+	INPUT_MEASURE(i) = ADC1H; i++;
+	INPUT_MEASURE(i) = ADC1L; i++;	
+	// ------ CSATORNA #2 MERES ------ 
+	SFRPAGE = ADC0_PAGE;
+	OUTPUT_MEASURE(j) = ADC0H; j++;
+	OUTPUT_MEASURE(j) = ADC0L; j++;	
+	// ------ JEL-GENERALAS ------ 
+	__asm 
+			// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig!
 			clr	c
 			mov	a,_num_of_samples
 			rl a					// a *= 2; 
 			dec a					// a--;
 			subb	a,_n
 			jnc	00102$
-			mov	_n,#0x00
+			mov	_n, #0x00
 		00102$:
-	__endasm;
-	
+	__endasm;	
 	// jel generalas mintakbol
 	DAC0H = SAMPLES(n); n++;
 	DAC0L = SAMPLES(n); n++;
 	
-	
-// #ifdef DEBUG_ON	
-	// DEBUG_PORT = 0; // OFF
-// #endif
+#ifdef DEBUG_ON	
+	DEBUG_PORT = 0; // OFF
+#endif	
 }
 
 
@@ -375,19 +304,12 @@ void main() {
 			DAC1H=c;
 		}
 		
-		// tomb fogadasa - G, mint get()
+		// tomb feltoltese mintakkal - G, mint get()
 		else if (c=='G') {
 		
 			SFRPAGE   = TMR2_PAGE;
-			TR2 = 0; // disable tmr2 (kuldeskor ne nyuljon a tombhoz)
+			TR2 = 0; // Disable TMR2 (kuldeskor ne nyuljon a tombhoz)
 			
-			// ez nem kell ide assssszem
-			// SFRPAGE   = ADC0_PAGE;
-			// CLR_BIT(ADC0CN, 7); // Disable ADC0			
-			// ez elrontja a comm-t
-			// SFRPAGE   = ADC1_PAGE;
-			// AD1EN = 0; // Disable ADC1
-
 			// bekeri hany elemet kell beolvasni
 			num_of_samples = SInOut();
 			// num_of_samples = (num_of_samples << 8) + SInOut(); // interrupt gyorsitashoz 8 bites-re vettem
@@ -400,32 +322,30 @@ void main() {
 			}		
 		}
 		
-		// set TMR2 RLD value
+		// set TMR2 RLD value - f, mint freq
 		else if (c=='f') {
 			RCAP2H   = SInOut();	// hi
 			RCAP2L   = SInOut();	// lo
 		}
 		
-		// [g]enerate samples
+		// generate sample signal
 		else if (c=='g') {
 		    SFRPAGE   = DAC0_PAGE;
 		    DAC0CN    = 0x84;
 			
 			SFRPAGE   = TMR2_PAGE;
-			TR2 = 1; // enable tmr2
+			TR2 = 1; // Enable TMR2
+			
+			SFRPAGE   = ADC0_PAGE;
+			AD0EN = 1; // Enable ADC0	
+			SFRPAGE   = ADC1_PAGE;
+			AD1EN = 1; // Enable ADC1
 		}
 		
 		// measure 2 channels
 		else if (c=='m') {
-			// reset indexes
-			i = 0; 
-			j = 0;		
-
-			// start measurement
-			SFRPAGE   = ADC0_PAGE;
-			AD0EN = 1; // Enable ADC0, 7=MSB			
-			SFRPAGE   = ADC1_PAGE;
-			AD1EN = 1; // Enable ADC1, 7=MSB
+			// ennyi db mintat kell elmenteni
+			samples_to_save = num_of_samples;
 		}
 	}
 }
