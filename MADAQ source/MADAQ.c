@@ -205,34 +205,65 @@ void ADC0_irqhandler (void) __interrupt 13 {
 
 	AD0INT = 0;	
 	
-	// ERROR - wtf
+	// COMPILE ERROR ERROR - wtf
 	// if (samples_to_save != 0) {;}
-		
-	i = n; // kezdoindex beallitas
-	j = n;
+	
 	// ------ CSATORNA #1 MERES ------ 
-	SFRPAGE = ADC1_PAGE;
-	INPUT_MEASURE(i) = ADC1H; i++;
-	INPUT_MEASURE(i) = ADC1L; i++;	
+	__asm
+		// SFRPAGE = ADC1_PAGE;
+		// i = n; j = n; // kezdoindex beallitas
+		// INPUT_MEASURE(i) = ADC1H; i++;
+		// INPUT_MEASURE(i) = ADC1L; i++;
+		mov	_SFRPAGE,#0x01
+		mov dpl,_n
+		mov dph,#0x01
+		mov a,_ADC1H
+		movx @dptr,a
+		inc dpl
+		mov a,_ADC1L
+		movx @dptr,a
+	__endasm;	
+	
 	// ------ CSATORNA #2 MERES ------ 
-	SFRPAGE = ADC0_PAGE;
-	OUTPUT_MEASURE(j) = ADC0H; j++;
-	OUTPUT_MEASURE(j) = ADC0L; j++;	
+	__asm
+		// SFRPAGE = ADC0_PAGE;
+		// OUTPUT_MEASURE(j) = ADC0H; j++;
+		// OUTPUT_MEASURE(j) = ADC0L; j++;	
+		mov	_SFRPAGE,#0x00
+		mov dpl,_n
+		mov dph,#0x02
+		mov a,_ADC0H
+		movx @dptr,a
+		inc dpl
+		mov a,_ADC0L
+		movx @dptr,a
+	__endasm;
+	
 	// ------ JEL-GENERALAS ------ 
 	__asm 
-			// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig!
-			clr	c
-			mov	a,_num_of_samples
-			rl a					// a *= 2; 
-			dec a					// a--;
-			subb	a,_n
-			jnc	00102$
-			mov	_n, #0x00
-		00102$:
-	__endasm;	
-	// jel generalas mintakbol
-	DAC0H = SAMPLES(n); n++;
-	DAC0L = SAMPLES(n); n++;
+		// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig jo!
+		clr	c
+		mov	a,_num_of_samples
+		rl a					// a *= 2; 
+		dec a					// a--;
+		subb	a,_n
+		jnc	ELSE
+		mov	_n, #0x00
+		ELSE:
+		// jel generalas mintakbol
+		// DAC0H = SAMPLES(n); n++;
+		// DAC0L = SAMPLES(n); n++;
+		mov	dpl,_n
+		mov	dph,#0x00
+		movx	a,@dptr
+		mov	_DAC0H,a
+		inc dpl
+		movx	a,@dptr
+		mov	_DAC0L,a
+		inc	_n
+		inc	_n
+	__endasm;
+	
 	
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 0; // OFF
