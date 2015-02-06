@@ -69,6 +69,20 @@ XRAM OS KÖZVETLEN ELÉRÉS
 	inc	_i
 	
 	
+ÜBER OPTIMALIZÁLT XRAMOS MÉRÉS
+
+	; INPUT_MEASURE(i) = ADC1H; i++;
+	; INPUT_MEASURE(i) = ADC1L; i++;
+	mov dpl,_n
+	mov dph,#0x01
+	mov a,_ADC1H
+	movx @dptr,a	
+	inc dpl
+	mov a,_ADC1L
+	movx @dptr,a
+	
+	
+	
 	
 	
 	
