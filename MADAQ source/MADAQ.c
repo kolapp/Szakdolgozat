@@ -178,18 +178,19 @@ unsigned char CheckSRAMs(void) {
 void Send_ADC_data() {
 	INT8U i = 0;
 
-	// ez csak HIGH byte-ot kuld!
-	
 	// send output data to pc
 	for (i=0; i<num_of_samples *2+1; i++) {
-		SOut(OUTPUT_MEASURE(i));
+		SOut(OUTPUT_MEASURE(i)); // HI
 		i++;
+		SOut(OUTPUT_MEASURE(i)); // LO
 	}
 	
 	// send input data
+	
 	for (i=0; i<num_of_samples *2+1; i++) {
-		SOut(INPUT_MEASURE(i));
+		SOut(INPUT_MEASURE(i)); // HI
 		i++;
+		SOut(INPUT_MEASURE(i)); // LO
 	}
 	
 }
@@ -376,7 +377,8 @@ void main() {
 		// measure 2 channels
 		else if (c=='m') {
 			// ennyi db mintat kell elmenteni
-			samples_to_save = num_of_samples;
+			// samples_to_save = num_of_samples;
+			// ...
 		}
 	}
 }
