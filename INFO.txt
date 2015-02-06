@@ -1,0 +1,17 @@
+*- labview-ból n elemû tömböt küldeni (concat-tal)
+- 2 csatornán mérni: eredeti input, kapott output
+
+- küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
+*- a madaq eredeti funkciót nem kell megtartani
+
+- validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
+
+
+szûrõzés:
+- mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
+- vannak félig elõre megépített szûrõk (breadboard helyett)
+- http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
+
+
+update
+- ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol

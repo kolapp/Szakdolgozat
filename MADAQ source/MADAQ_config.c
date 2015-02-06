@@ -129,7 +129,12 @@ void Port_IO_Init()
 
 void Oscillator_Init()
 {
+    int i = 0;
     SFRPAGE   = CONFIG_PAGE;
+    OSCXCN    = 0x67;
+    for (i = 0; i < 3000; i++);  // Wait 1ms for initialization
+    while ((OSCXCN & 0x80) == 0);
+    CLKSEL    = 0x01;
     OSCICN    = 0x83;
 }
 

@@ -1,27 +1,16 @@
-*- labview-ból n elemû tömböt küldeni (concat-tal)
-- 2 csatornán mérni: eredeti input, kapott output
-*- hogy kell belefutni az adc interruptba? timer2 irq ki van kapcsolva.
 
-- küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
-*- a madaq eredeti funkciót nem kell megtartani
+FONTOS:
+- 2. fokú LP szûrõt tervezni (2 héten belül készre); átviteli fgv méréskor rákötni a madaq-ra - mûszerelektronika
+- BNC + SUB-D csatlakozóval
+- jumperekkel/analóg kapcsolóval a szûrõ paramétereit állítani ÉS/VAGY digitálisan állítható szûrõmodul (bonyolult)
 
-*- adott frekivel kiadni - HOW?
-
-még több funkció:
-- (2 csatornás szinkronjel mérés)
-- logikai jelanalizátor
-- validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
-- can, spi kommunikációkat implementálni labview-ban? a drót ki van kötve hardveresen, implementálnva nincs
+FONTOS #2:
+- labview progi átviteli fgv méréshez
 
 
-szûrõzés:
-- mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
-- vannak félig elõre megépített szûrõk (breadboard helyett)
-- szûrõáramkört tervezni: "az poén"
-- http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
 
+NEM annyira fontos:
+- 256 mintáig tárolni (127 helyett) + esetleg belsõ memóriába
+- DMA-s mérés
 
-update (dec. 2.)
-- dógozni vizsgaidõszakban rendesen, a végére 2esnél jobb jegy alakulhat
-- ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol
-- bitmintázatokat csinálni/mérni/elõállítani? (> 10 szabad port van ám)
+- visszamérni/számolni a tényleg signal freq-et
