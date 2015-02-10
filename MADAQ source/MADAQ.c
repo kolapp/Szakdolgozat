@@ -177,22 +177,24 @@ unsigned char CheckSRAMs(void) {
 // ============================ [ Send data to PC ] ============================ //
 void Send_ADC_data() {
 	INT8U i = 0;
-
-	// send output data to pc
-	for (i=0; i<num_of_samples *2+1; i++) {
-		SOut(OUTPUT_MEASURE(i)); // HI
-		i++;
-		SOut(OUTPUT_MEASURE(i)); // LO
-	}
 	
-	// send input data
+	// ADC alljon meg kuldes alatt
+	SFRPAGE   = TMR2_PAGE;
+	TR2 = 0; // Disable TMR2
 	
+	// send input data to pc
 	for (i=0; i<num_of_samples *2+1; i++) {
 		SOut(INPUT_MEASURE(i)); // HI
 		i++;
 		SOut(INPUT_MEASURE(i)); // LO
 	}
 	
+	// send output data to pc
+	for (i=0; i<num_of_samples *2+1; i++) {
+		SOut(OUTPUT_MEASURE(i)); // HI
+		i++;
+		SOut(OUTPUT_MEASURE(i)); // LO
+	}	
 }
 
 
