@@ -211,6 +211,19 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	// COMPILE ERROR ERROR - wtf
 	// if (samples_to_save != 0) {;}
 	
+	// index ellenorzes
+	__asm
+		// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig jo!
+		clr	c
+		mov	a,_num_of_samples
+		rl a					// a *= 2; 
+		dec a					// a--;
+		subb	a,_n
+		jnc	ELSE
+		mov	_n, #0x00
+		ELSE:
+	__endasm;
+	
 	// ------ CSATORNA #1 MERES ------ 
 	__asm
 		// SFRPAGE = ADC1_PAGE;
@@ -219,7 +232,7 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		// INPUT_MEASURE(i) = ADC1L; i++;
 		mov	_SFRPAGE,#0x01
 		mov dpl,_n
-		mov dph,#0x01
+		mov dph,#0x01	// dptr: 0x0100-tol 0x01FF-ig
 		mov a,_ADC1H
 		movx @dptr,a
 		inc dpl
@@ -234,7 +247,7 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		// OUTPUT_MEASURE(j) = ADC0L; j++;	
 		mov	_SFRPAGE,#0x00
 		mov dpl,_n
-		mov dph,#0x02
+		mov dph,#0x02	// dptr: 0x0200-tol 0x02FF-ig
 		mov a,_ADC0H
 		movx @dptr,a
 		inc dpl
@@ -244,15 +257,6 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	
 	// ------ JEL-GENERALAS ------ 
 	__asm 
-		// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig jo!
-		clr	c
-		mov	a,_num_of_samples
-		rl a					// a *= 2; 
-		dec a					// a--;
-		subb	a,_n
-		jnc	ELSE
-		mov	_n, #0x00
-		ELSE:
 		// jel generalas mintakbol
 		// DAC0H = SAMPLES(n); n++;
 		// DAC0L = SAMPLES(n); n++;
@@ -376,11 +380,20 @@ void main() {
 			AD1EN = 1; // Enable ADC1
 		}
 		
-		// measure 2 channels
-		else if (c=='m') {
-			// ennyi db mintat kell elmenteni
-			// samples_to_save = num_of_samples;
-			// ...
+		// teszt: mert jel generalasa (ellenorzes)
+		else if (c=='t') {			
+			// ADC alljon meg kuldes alatt
+			SFRPAGE   = TMR2_PAGE;
+			TR2 = 0; // Disable TMR2			
+			for (i=0; i<num_of_samples *2+2; i++) {
+				SAMPLES(i) = INPUT_MEASURE(i);
+				i++;
+				SAMPLES(i) = INPUT_MEASURE(i);
+			}			
+			// ADC alljon meg kuldes alatt
+			SFRPAGE   = TMR2_PAGE;
+			TR2 = 1; 
 		}
+		
 	}
 }
