@@ -1,17 +1,23 @@
 *- labview-ból n elemû tömböt küldeni (concat-tal)
-- 2 csatornán mérni: eredeti input, kapott output
-
-- küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
 *- a madaq eredeti funkciót nem kell megtartani
+*- 2 csatornán mérni: eredeti input, kapott output
+*- küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
+
 
 - validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
 
 
-szûrõzés:
+SZÛRÕZÉS:
 - mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
 - vannak félig elõre megépített szûrõk (breadboard helyett)
 - http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
+- mintavételi szûrõ? az mi?
+- gerjesztõ jelhez sallen-key szûrõ
+- http://sim.okawa-denshi.jp/en/OPseikiLowkeisan.htm
 
 
 update
 - ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol
+
+- azért kell a DAC sine jelét szûrni, mert a lépcsõk nagy frekis részei miatt nem teljesül a mintavételi tétel
+- tehát: teljesüljön lehetõleg mindenhol a mintavételi tétel
