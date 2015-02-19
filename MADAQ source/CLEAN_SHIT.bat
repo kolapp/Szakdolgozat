@@ -13,3 +13,7 @@ del *.rst
 del *.sym
 del *.out
 del *.omf
+
+del *autosave*
+del *.s#*
+del *.b#*

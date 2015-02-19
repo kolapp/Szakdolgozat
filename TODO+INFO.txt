@@ -1,8 +1,33 @@
+--------------------- T O D O ---------------------------
+FONTOS:
+- 2. fokú LP szûrõ panelt tervezni; átviteli fgv méréskor rákötni a madaq-ra - lásd. mûszerelektronika
+- BNC + SUB-D csatlakozóval
+- kb 2 héten belül készre? - mert sokáig tart legyártani; hétvégén gondolkodni rajta
+- jumperekkel/analóg kapcsolóval a szûrõ paramétereit állítani ( + digitálisan állítható szûrõmodul (bonyolult))
+
+FONTOS #2:
+- labview progi átviteli fgv méréshez
+- see MSE 9. óra, AC-Transfer.vi
+- see MSE 11 óra
+
+
+
+NEM annyira fontos:
+- 256 mintáig tárolni (127 helyett) + esetleg belsõ memóriába
+- DMA-s mérés
+
+- visszamérni/számolni a valós signal freq-et
+
+
+
+
+
+--------------------- I N F Ó K ---------------------------
+
 *- labview-ból n elemû tömböt küldeni (concat-tal)
 *- a madaq eredeti funkciót nem kell megtartani
 *- 2 csatornán mérni: eredeti input, kapott output
 *- küldésnél minden bájtra / egész tömbre lehet ACK-ot kérni
-
 
 - validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
 
@@ -14,10 +39,10 @@ SZÛRÕZÉS:
 - mintavételi szûrõ? az mi?
 - gerjesztõ jelhez sallen-key szûrõ
 - http://sim.okawa-denshi.jp/en/OPseikiLowkeisan.htm
+- mi lenne ha szûrõket kapcsolgatnék? {10, 1, 0.1, 0.01, 0.001} uF kellhet 
 
 
 update
 - ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol
-
 - azért kell a DAC sine jelét szûrni, mert a lépcsõk nagy frekis részei miatt nem teljesül a mintavételi tétel
 - tehát: teljesüljön lehetõleg mindenhol a mintavételi tétel
