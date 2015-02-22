@@ -1,22 +1,43 @@
 --------------------- T O D O ---------------------------
-FONTOS:
-- 2. fokú LP szûrõ panelt tervezni; átviteli fgv méréskor rákötni a madaq-ra - lásd. mûszerelektronika
-- BNC + SUB-D csatlakozóval
-- kb 2 héten belül készre? - mert sokáig tart legyártani; hétvégén gondolkodni rajta
-- jumperekkel/analóg kapcsolóval a szûrõ paramétereit állítani ( + digitálisan állítható szûrõmodul (bonyolult))
-
 FONTOS #2:
 - labview progi átviteli fgv méréshez
 - see MSE 9. óra, AC-Transfer.vi
 - see MSE 11 óra
 
-
-
 NEM annyira fontos:
 - 256 mintáig tárolni (127 helyett) + esetleg belsõ memóriába
 - DMA-s mérés
-
 - visszamérni/számolni a valós signal freq-et
+
+
+
+--------------------- F I L T E R   P A N E L ---------------------------
+- 2. fokú LP szûrõ panelt tervezni; átviteli fgv méréskor rákötni a madaq-ra - lásd. mûszerelektronika
+- 2 db BNC + 1 db SUB-D csatlakozóval
+- kb 2 héten belül készre? - sokáig tart legyártani; hétvégén gondolkodni rajta
+- analóg kapcsolóval a 2 szûrõt váltogatni
+- madaq szabad portjaival mi legyen? (pin-re ki lehetne néhányat kötni 
+
+
+ALKATRÉSZEK:
+*DUAL OPAMP (SO-16) (1 db)
+	LMC6482AIM
+	MC33202
+	OPA 2376
+*ANALOG SWITCH (1 db)
+	TS12A12511
+*BNC csatlakozó (2 db)
+*SUB-D csatlakozó, female (1 db)
+*mérõ-pin (2 db?)
+
+SZÛRÕZÉS:
+- mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
+- vannak félig elõre megépített szûrõk (breadboard helyett)
+- http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
+- mintavételi szûrõ? az mi?
+- azért kell a DAC sine jelét szûrni, mert a lépcsõk nagy frekis részei miatt nem teljesül a mintavételi tétel
+- gerjesztõ jelhez sallen-key szûrõ
+- http://sim.okawa-denshi.jp/en/OPseikiLowkeisan.htm
 
 
 
@@ -31,18 +52,5 @@ NEM annyira fontos:
 
 - validálni, hogy milyen frekire mûködik a madaq, megbizhatóság check
 
-
-SZÛRÕZÉS:
-- mûszerelektronika msc kurzus: legalább 2. rendû szûrõt használni, anyagot átnézni!!
-- vannak félig elõre megépített szûrõk (breadboard helyett)
-- http://www.analog.com/library/analogDialogue/archives/43-09/EDCh%208%20filter.pdf
-- mintavételi szûrõ? az mi?
-- gerjesztõ jelhez sallen-key szûrõ
-- http://sim.okawa-denshi.jp/en/OPseikiLowkeisan.htm
-- mi lenne ha szûrõket kapcsolgatnék? {10, 1, 0.1, 0.01, 0.001} uF kellhet 
-
-
-update
 - ami a laborban új: folyamatosan generálódik a jel, hogy be tudjon állni a rendszer, és mérési kéréskor 1 periódust eltárol
-- azért kell a DAC sine jelét szûrni, mert a lépcsõk nagy frekis részei miatt nem teljesül a mintavételi tétel
 - tehát: teljesüljön lehetõleg mindenhol a mintavételi tétel
