@@ -2352,92 +2352,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 </deviceset>
 </devicesets>
 </library>
-<library name="Zoli2_2015-02-22">
-<packages>
-<package name="MSOP08">
-<description>&lt;b&gt;Mini Small Outline Package&lt;/b&gt;</description>
-<wire x1="1.624" y1="1.299" x2="1.624" y2="-1.301" width="0.1524" layer="21"/>
-<wire x1="-1.626" y1="-1.301" x2="-1.626" y2="1.299" width="0.1524" layer="21"/>
-<wire x1="1.299" y1="1.624" x2="1.624" y2="1.299" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.626" y1="1.299" x2="-1.301" y2="1.624" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.626" y1="-1.301" x2="-1.301" y2="-1.626" width="0.1524" layer="21" curve="90"/>
-<wire x1="1.299" y1="-1.626" x2="1.624" y2="-1.301" width="0.1524" layer="21" curve="90"/>
-<wire x1="-1.341" y1="-1.626" x2="-1.204" y2="-1.626" width="0.1524" layer="21"/>
-<wire x1="-0.747" y1="-1.626" x2="-0.554" y2="-1.626" width="0.1524" layer="21"/>
-<wire x1="-0.097" y1="-1.626" x2="0.096" y2="-1.626" width="0.1524" layer="21"/>
-<wire x1="0.553" y1="-1.626" x2="0.746" y2="-1.626" width="0.1524" layer="21"/>
-<wire x1="1.203" y1="-1.626" x2="1.299" y2="-1.626" width="0.1524" layer="21"/>
-<wire x1="-1.301" y1="1.624" x2="-1.204" y2="1.624" width="0.1524" layer="21"/>
-<wire x1="-0.747" y1="1.624" x2="-0.554" y2="1.624" width="0.1524" layer="21"/>
-<wire x1="-0.097" y1="1.624" x2="0.096" y2="1.624" width="0.1524" layer="21"/>
-<wire x1="0.553" y1="1.624" x2="0.746" y2="1.624" width="0.1524" layer="21"/>
-<wire x1="1.203" y1="1.624" x2="1.299" y2="1.624" width="0.1524" layer="21"/>
-<circle x="-1.0726" y="-1.0446" radius="0.254" width="0.0508" layer="21"/>
-<smd name="8" x="-0.976" y="2.112" dx="0.3" dy="1.2" layer="1"/>
-<smd name="7" x="-0.326" y="2.112" dx="0.3" dy="1.2" layer="1"/>
-<smd name="6" x="0.324" y="2.112" dx="0.3" dy="1.2" layer="1"/>
-<smd name="5" x="0.974" y="2.112" dx="0.3" dy="1.2" layer="1"/>
-<smd name="4" x="0.974" y="-2.113" dx="0.3" dy="1.2" layer="1"/>
-<smd name="3" x="0.324" y="-2.113" dx="0.3" dy="1.2" layer="1"/>
-<smd name="2" x="-0.326" y="-2.113" dx="0.3" dy="1.2" layer="1"/>
-<smd name="1" x="-0.976" y="-2.113" dx="0.3" dy="1.2" layer="1"/>
-<text x="-2.032" y="-2.54" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="-1.524" y="-0.635" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-<rectangle x1="-1.0975" y1="1.6244" x2="-0.8537" y2="2.3557" layer="51"/>
-<rectangle x1="-0.4475" y1="1.6244" x2="-0.2037" y2="2.3557" layer="51"/>
-<rectangle x1="0.2025" y1="1.6244" x2="0.4463" y2="2.3557" layer="51"/>
-<rectangle x1="0.8525" y1="1.6244" x2="1.0963" y2="2.3557" layer="51"/>
-<rectangle x1="-1.0975" y1="-2.3569" x2="-0.8537" y2="-1.6256" layer="51"/>
-<rectangle x1="-0.4475" y1="-2.3569" x2="-0.2037" y2="-1.6256" layer="51"/>
-<rectangle x1="0.2025" y1="-2.3569" x2="0.4463" y2="-1.6256" layer="51"/>
-<rectangle x1="0.8525" y1="-2.3569" x2="1.0963" y2="-1.6256" layer="51"/>
-</package>
-</packages>
-<symbols>
-<symbol name="TS12A12511">
-<wire x1="10.16" y1="10.16" x2="10.16" y2="-10.16" width="0.6096" layer="94"/>
-<wire x1="10.16" y1="-10.16" x2="-10.16" y2="-10.16" width="0.6096" layer="94"/>
-<wire x1="-10.16" y1="-10.16" x2="-10.16" y2="10.16" width="0.6096" layer="94"/>
-<wire x1="-10.16" y1="10.16" x2="10.16" y2="10.16" width="0.6096" layer="94"/>
-<text x="-10.16" y="10.795" size="1.778" layer="96">&gt;NAME</text>
-<text x="-10.16" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="NC" x="-17.78" y="2.54"/>
-<pin name="COM" x="-17.78" y="7.62"/>
-<pin name="GND" x="-17.78" y="-2.54" direction="pwr"/>
-<pin name="VCC" x="-17.78" y="-7.62" direction="pwr"/>
-<pin name="NO" x="17.78" y="7.62" rot="R180"/>
-<pin name="-VCC" x="17.78" y="2.54" direction="pwr" rot="R180"/>
-<pin name="IN" x="17.78" y="-2.54" direction="in" rot="R180"/>
-<pin name="N.C." x="17.78" y="-7.62" direction="nc" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="TS12A12511">
-<description>&lt;b&gt;Single-Channel SPDT Analog Switch &lt;/b&gt;
-&lt;p&gt; Source: http://www.ti.com/lit/ds/symlink/ts12a12511.pdf &lt;\p&gt;</description>
-<gates>
-<gate name="G$1" symbol="TS12A12511" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="MSOP08">
-<connects>
-<connect gate="G$1" pin="-VCC" pad="7"/>
-<connect gate="G$1" pin="COM" pad="1"/>
-<connect gate="G$1" pin="GND" pad="3"/>
-<connect gate="G$1" pin="IN" pad="6"/>
-<connect gate="G$1" pin="N.C." pad="5"/>
-<connect gate="G$1" pin="NC" pad="2"/>
-<connect gate="G$1" pin="NO" pad="8"/>
-<connect gate="G$1" pin="VCC" pad="4"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="jumper">
 <packages>
 <package name="JP1">
@@ -2516,6 +2430,63 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <text x="-1.27" y="1.778" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <rectangle x1="-0.3049" y1="-0.3049" x2="0.3049" y2="0.3049" layer="51"/>
 </package>
+<package name="MSOP8">
+<wire x1="-0.916" y1="1.299" x2="-0.916" y2="-1.301" width="0.1524" layer="21"/>
+<wire x1="-4.166" y1="-1.301" x2="-4.166" y2="1.299" width="0.1524" layer="21"/>
+<wire x1="-1.241" y1="1.624" x2="-0.916" y2="1.299" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-4.166" y1="1.299" x2="-3.841" y2="1.624" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-4.166" y1="-1.301" x2="-3.841" y2="-1.626" width="0.1524" layer="21" curve="90"/>
+<wire x1="-1.241" y1="-1.626" x2="-0.916" y2="-1.301" width="0.1524" layer="21" curve="90"/>
+<wire x1="-3.881" y1="-1.626" x2="-1.241" y2="-1.626" width="0.1524" layer="21"/>
+<wire x1="-3.841" y1="1.624" x2="-1.241" y2="1.624" width="0.1524" layer="21"/>
+<circle x="-3.5856" y="-1.0406" radius="0.2448" width="0.0508" layer="21"/>
+<smd name="8" x="-3.516" y="2.262" dx="0.4" dy="1" layer="1"/>
+<smd name="7" x="-2.866" y="2.262" dx="0.4" dy="1" layer="1"/>
+<smd name="6" x="-2.216" y="2.262" dx="0.4" dy="1" layer="1"/>
+<smd name="5" x="-1.566" y="2.262" dx="0.4" dy="1" layer="1"/>
+<smd name="4" x="-1.566" y="-2.263" dx="0.4" dy="1" layer="1"/>
+<smd name="3" x="-2.216" y="-2.263" dx="0.4" dy="1" layer="1"/>
+<smd name="2" x="-2.866" y="-2.263" dx="0.4" dy="1" layer="1"/>
+<smd name="1" x="-3.516" y="-2.263" dx="0.4" dy="1" layer="1"/>
+<text x="-4.572" y="-2.54" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="0.762" y="-2.54" size="1.27" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
+<rectangle x1="-3.6375" y1="1.65" x2="-3.3937" y2="2.5057" layer="51"/>
+<rectangle x1="-2.9875" y1="1.65" x2="-2.7437" y2="2.5057" layer="51"/>
+<rectangle x1="-2.3375" y1="1.65" x2="-2.0937" y2="2.5057" layer="51"/>
+<rectangle x1="-1.6875" y1="1.65" x2="-1.4437" y2="2.5057" layer="51"/>
+<rectangle x1="-3.6375" y1="-2.5069" x2="-3.3937" y2="-1.65" layer="51"/>
+<rectangle x1="-2.9875" y1="-2.5069" x2="-2.7437" y2="-1.65" layer="51"/>
+<rectangle x1="-2.3375" y1="-2.5069" x2="-2.0937" y2="-1.65" layer="51"/>
+<rectangle x1="-1.6875" y1="-2.5069" x2="-1.4437" y2="-1.65" layer="51"/>
+</package>
+<package name="SO08">
+<description>&lt;b&gt;Small Outline Package 8&lt;/b&gt;</description>
+<wire x1="2.4" y1="1.9" x2="2.4" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.4" x2="2.4" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.9" x2="-2.4" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="-1.9" x2="-2.4" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="-1.4" x2="-2.4" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="-2.4" y1="1.9" x2="2.4" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="2.4" y1="-1.4" x2="-2.4" y2="-1.4" width="0.2032" layer="51"/>
+<smd name="2" x="-0.635" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="7" x="-0.635" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="1" x="-1.905" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="3" x="0.635" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="4" x="1.905" y="-2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="8" x="-1.905" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="6" x="0.635" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<smd name="5" x="1.905" y="2.6" dx="0.6" dy="2.2" layer="1"/>
+<text x="-2.667" y="-1.905" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="3.937" y="-1.905" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<rectangle x1="-2.15" y1="-3.1" x2="-1.6599" y2="-1.9999" layer="51"/>
+<rectangle x1="-0.88" y1="-3.1" x2="-0.3899" y2="-1.9999" layer="51"/>
+<rectangle x1="0.39" y1="-3.1" x2="0.8801" y2="-1.9999" layer="51"/>
+<rectangle x1="1.66" y1="-3.1" x2="2.1501" y2="-1.9999" layer="51"/>
+<rectangle x1="1.66" y1="2" x2="2.1501" y2="3.1001" layer="51"/>
+<rectangle x1="0.39" y1="2" x2="0.8801" y2="3.1001" layer="51"/>
+<rectangle x1="-0.88" y1="2" x2="-0.3899" y2="3.1001" layer="51"/>
+<rectangle x1="-2.15" y1="2" x2="-1.6599" y2="3.1001" layer="51"/>
+</package>
 </packages>
 <symbols>
 <symbol name="TESTPIN">
@@ -2523,6 +2494,22 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <circle x="0" y="0" radius="0.508" width="0.254" layer="94"/>
 <text x="-1.524" y="1.016" size="1.016" layer="95">&gt;NAME</text>
 <pin name="1" x="-2.54" y="0" visible="off" length="short"/>
+</symbol>
+<symbol name="ADG419">
+<wire x1="-7.62" y1="10.16" x2="7.62" y2="10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="10.16" x2="7.62" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-10.16" x2="-7.62" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-10.16" x2="-7.62" y2="10.16" width="0.254" layer="94"/>
+<text x="-7.62" y="10.668" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-12.7" size="1.778" layer="95">&gt;VALUE</text>
+<pin name="S1" x="-12.7" y="2.54" length="middle"/>
+<pin name="S2" x="-12.7" y="0" length="middle"/>
+<pin name="D" x="12.7" y="0" length="middle" rot="R180"/>
+<pin name="IN" x="-12.7" y="-2.54" length="middle" direction="in"/>
+<pin name="VDD" x="12.7" y="7.62" length="middle" direction="pwr" rot="R180"/>
+<pin name="GND" x="-12.7" y="-7.62" length="middle" direction="pwr"/>
+<pin name="VL" x="-12.7" y="7.62" length="middle" direction="pwr"/>
+<pin name="VSS" x="12.7" y="-7.62" length="middle" direction="pwr" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -2535,6 +2522,43 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <device name="" package="JP1">
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="ADG419" prefix="IC" uservalue="yes">
+<gates>
+<gate name="G$1" symbol="ADG419" x="-15.24" y="15.24"/>
+</gates>
+<devices>
+<device name="BRM" package="MSOP8">
+<connects>
+<connect gate="G$1" pin="D" pad="1"/>
+<connect gate="G$1" pin="GND" pad="3"/>
+<connect gate="G$1" pin="IN" pad="6"/>
+<connect gate="G$1" pin="S1" pad="2"/>
+<connect gate="G$1" pin="S2" pad="8"/>
+<connect gate="G$1" pin="VDD" pad="4"/>
+<connect gate="G$1" pin="VL" pad="5"/>
+<connect gate="G$1" pin="VSS" pad="7"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="BR" package="SO08">
+<connects>
+<connect gate="G$1" pin="D" pad="1"/>
+<connect gate="G$1" pin="GND" pad="3"/>
+<connect gate="G$1" pin="IN" pad="6"/>
+<connect gate="G$1" pin="S1" pad="2"/>
+<connect gate="G$1" pin="S2" pad="8"/>
+<connect gate="G$1" pin="VDD" pad="4"/>
+<connect gate="G$1" pin="VL" pad="5"/>
+<connect gate="G$1" pin="VSS" pad="7"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -2576,7 +2600,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="BNC_1" library="Zoli2_2015-01-28" deviceset="BNC-ISOL" device="-90I"/>
 <part name="BNC_2" library="Zoli2_2015-01-28" deviceset="BNC-ISOL" device="-90I"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
-<part name="SWITCH" library="Zoli2_2015-02-22" deviceset="TS12A12511" device=""/>
 <part name="P-2" library="supply1" deviceset="-5V" device=""/>
 <part name="P+2" library="supply1" deviceset="+5V" device=""/>
 <part name="C9" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="0.1 uF"/>
@@ -2588,7 +2611,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="JP5" library="jumper" deviceset="JP1Q" device=""/>
 <part name="JP6" library="jumper" deviceset="JP1Q" device=""/>
 <part name="JP1" library="jumper" deviceset="JP1Q" device=""/>
-<part name="JP2" library="jumper" deviceset="JP1Q" device=""/>
 <part name="BNC_3" library="Zoli2_2015-01-28" deviceset="BNC-ISOL" device="-90I"/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
@@ -2598,10 +2620,12 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="TP3" library="MRobi" deviceset="TP" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
 <part name="TP4" library="MRobi" deviceset="TP" device=""/>
-<part name="TP5" library="MRobi" deviceset="TP" device=""/>
-<part name="TP6" library="MRobi" deviceset="TP" device=""/>
-<part name="TP7" library="MRobi" deviceset="TP" device=""/>
-<part name="TP8" library="MRobi" deviceset="TP" device=""/>
+<part name="IC1" library="MRobi" deviceset="ADG419" device="BR"/>
+<part name="C11" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="0.1 uF"/>
+<part name="P+3" library="supply1" deviceset="+5V" device=""/>
+<part name="GND11" library="supply1" deviceset="GND" device=""/>
+<part name="TP9" library="MRobi" deviceset="TP" device=""/>
+<part name="TP10" library="MRobi" deviceset="TP" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2612,14 +2636,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <text x="96.52" y="157.48" size="1.778" layer="97">Analog switch for SIG_1 and SIG_2</text>
 <text x="88.9" y="104.14" size="1.778" layer="97">Szürt gerjesztö-jel + External</text>
 <text x="160.02" y="99.06" size="1.778" layer="97">ADC bemenet</text>
-<text x="182.88" y="50.8" size="1.778" layer="91">Nem zajosit majd ez a sok jumper? Nem.</text>
-<text x="182.88" y="43.18" size="1.778" layer="91">Hány felé lehet elágaztatni egy jelet? Nemtom.</text>
-<text x="182.88" y="35.56" size="1.778" layer="91">Mérö pin-eket még rakni kell.</text>
-<text x="182.88" y="27.94" size="1.778" layer="91">A szüretlen jelet kivezessük-e? Why not.</text>
-<text x="182.88" y="20.32" size="1.778" layer="91">Mi legyen a használatlan lábakkal? Debug pin tuti kell!</text>
-<text x="182.88" y="12.7" size="1.778" layer="91">Switch control-hoz rakjak-e jumpereket? Nem.</text>
-<text x="182.88" y="5.08" size="1.778" layer="91">Bónusz RC szürö maradhat? Nem.</text>
-<text x="182.88" y="58.42" size="1.778" layer="91">Nem lesz zavaró a sok jumper? Nem kell.</text>
 </plain>
 <instances>
 <instance part="C1" gate="G$1" x="50.8" y="137.16"/>
@@ -2645,33 +2661,33 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <instance part="SUB-D" gate="-1" x="121.92" y="27.94"/>
 <instance part="BNC_1" gate="G$1" x="162.56" y="88.9"/>
 <instance part="BNC_2" gate="G$1" x="91.44" y="88.9"/>
-<instance part="GND1" gate="1" x="167.64" y="121.92"/>
-<instance part="SWITCH" gate="G$1" x="129.54" y="132.08"/>
-<instance part="P-2" gate="1" x="162.56" y="114.3"/>
-<instance part="P+2" gate="1" x="101.6" y="154.94"/>
-<instance part="C9" gate="G$1" x="96.52" y="137.16"/>
-<instance part="C10" gate="G$1" x="167.64" y="132.08"/>
-<instance part="GND5" gate="1" x="109.22" y="127"/>
-<instance part="GND6" gate="1" x="96.52" y="129.54"/>
+<instance part="GND1" gate="1" x="154.94" y="111.76"/>
+<instance part="P-2" gate="1" x="147.32" y="104.14"/>
+<instance part="P+2" gate="1" x="96.52" y="152.4"/>
+<instance part="C9" gate="G$1" x="96.52" y="134.62"/>
+<instance part="C10" gate="G$1" x="154.94" y="121.92"/>
+<instance part="GND5" gate="1" x="111.76" y="119.38"/>
+<instance part="GND6" gate="1" x="96.52" y="127"/>
 <instance part="JP3" gate="A" x="129.54" y="88.9" rot="R90"/>
 <instance part="JP4" gate="A" x="129.54" y="73.66" rot="R90"/>
 <instance part="JP5" gate="A" x="182.88" y="88.9" rot="R90"/>
 <instance part="JP6" gate="A" x="182.88" y="81.28" rot="R90"/>
 <instance part="JP1" gate="A" x="109.22" y="88.9" rot="R270"/>
-<instance part="JP2" gate="A" x="109.22" y="73.66" rot="R270"/>
 <instance part="BNC_3" gate="G$1" x="91.44" y="73.66"/>
 <instance part="GND7" gate="1" x="93.98" y="68.58"/>
 <instance part="GND8" gate="1" x="93.98" y="83.82"/>
 <instance part="TP1" gate="G$1" x="99.06" y="48.26" rot="R90"/>
 <instance part="GND9" gate="1" x="165.1" y="83.82"/>
-<instance part="TP2" gate="G$1" x="119.38" y="96.52" rot="R90"/>
-<instance part="TP3" gate="G$1" x="172.72" y="96.52" rot="R90"/>
+<instance part="TP2" gate="G$1" x="119.38" y="66.04" rot="R270"/>
+<instance part="TP3" gate="G$1" x="193.04" y="73.66" rot="R270"/>
 <instance part="GND10" gate="1" x="137.16" y="43.18"/>
 <instance part="TP4" gate="G$1" x="106.68" y="12.7" rot="R90"/>
-<instance part="TP5" gate="G$1" x="99.06" y="35.56" rot="R90"/>
-<instance part="TP6" gate="G$1" x="96.52" y="30.48" rot="R90"/>
-<instance part="TP7" gate="G$1" x="93.98" y="27.94" rot="R90"/>
-<instance part="TP8" gate="G$1" x="91.44" y="25.4" rot="R90"/>
+<instance part="IC1" gate="G$1" x="129.54" y="132.08"/>
+<instance part="C11" gate="G$1" x="154.94" y="137.16"/>
+<instance part="P+3" gate="1" x="154.94" y="152.4"/>
+<instance part="GND11" gate="1" x="154.94" y="129.54"/>
+<instance part="TP9" gate="G$1" x="66.04" y="91.44" rot="R90"/>
+<instance part="TP10" gate="G$1" x="66.04" y="40.64" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -2704,12 +2720,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="C1" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="109.22" y1="129.54" x2="111.76" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="GND5" gate="1" pin="GND"/>
-<pinref part="SWITCH" gate="G$1" pin="GND"/>
-</segment>
-<segment>
-<wire x1="167.64" y1="124.46" x2="167.64" y2="127" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="114.3" x2="154.94" y2="116.84" width="0.1524" layer="91"/>
 <pinref part="C10" gate="G$1" pin="1"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 </segment>
@@ -2782,6 +2793,16 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <wire x1="137.16" y1="48.26" x2="132.08" y2="48.26" width="0.1524" layer="91"/>
 <junction x="132.08" y="48.26"/>
 </segment>
+<segment>
+<pinref part="C11" gate="G$1" pin="1"/>
+<pinref part="GND11" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="GND5" gate="1" pin="GND"/>
+<wire x1="111.76" y1="121.92" x2="111.76" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="GND"/>
+<wire x1="111.76" y1="124.46" x2="116.84" y2="124.46" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$4" class="0">
 <segment>
@@ -2845,13 +2866,13 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="OP_" gate="P" pin="V-"/>
 </segment>
 <segment>
-<wire x1="147.32" y1="134.62" x2="162.56" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="162.56" y1="134.62" x2="162.56" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="167.64" y1="134.62" x2="162.56" y2="134.62" width="0.1524" layer="91"/>
-<junction x="162.56" y="134.62"/>
-<pinref part="SWITCH" gate="G$1" pin="-VCC"/>
+<wire x1="147.32" y1="124.46" x2="147.32" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="124.46" x2="147.32" y2="124.46" width="0.1524" layer="91"/>
+<junction x="147.32" y="124.46"/>
 <pinref part="P-2" gate="1" pin="-5V"/>
 <pinref part="C10" gate="G$1" pin="2"/>
+<pinref part="IC1" gate="G$1" pin="VSS"/>
+<wire x1="142.24" y1="124.46" x2="147.32" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUB-D" gate="-1" pin="37"/>
@@ -2875,37 +2896,26 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="OP_" gate="P" pin="V+"/>
 </segment>
 <segment>
-<wire x1="101.6" y1="152.4" x2="101.6" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="144.78" x2="101.6" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="124.46" x2="111.76" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="96.52" y1="139.7" x2="96.52" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="96.52" y1="144.78" x2="101.6" y2="144.78" width="0.1524" layer="91"/>
-<junction x="101.6" y="144.78"/>
+<wire x1="96.52" y1="149.86" x2="96.52" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="P+2" gate="1" pin="+5V"/>
-<pinref part="SWITCH" gate="G$1" pin="VCC"/>
+<pinref part="IC1" gate="G$1" pin="VL"/>
+<wire x1="116.84" y1="139.7" x2="96.52" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="C9" gate="G$1" pin="2"/>
+<wire x1="96.52" y1="137.16" x2="96.52" y2="139.7" width="0.1524" layer="91"/>
+<junction x="96.52" y="139.7"/>
 </segment>
 <segment>
 <pinref part="SUB-D" gate="-1" pin="19"/>
 <wire x1="114.3" y1="5.08" x2="111.76" y2="5.08" width="0.1524" layer="91"/>
 <label x="109.22" y="5.08" size="1.778" layer="95" rot="MR0"/>
 </segment>
-</net>
-<net name="N$7" class="0">
 <segment>
-<wire x1="119.38" y1="88.9" x2="121.92" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="119.38" y1="73.66" x2="119.38" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="121.92" y1="73.66" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
-<junction x="119.38" y="88.9"/>
-<pinref part="JP3" gate="A" pin="2"/>
-<pinref part="JP4" gate="A" pin="2"/>
-<pinref part="JP2" gate="A" pin="2"/>
-<wire x1="116.84" y1="73.66" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
-<junction x="119.38" y="73.66"/>
-<pinref part="JP1" gate="A" pin="2"/>
-<wire x1="116.84" y1="88.9" x2="119.38" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="TP2" gate="G$1" pin="1"/>
-<wire x1="119.38" y1="93.98" x2="119.38" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="VDD"/>
+<pinref part="P+3" gate="1" pin="+5V"/>
+<wire x1="142.24" y1="139.7" x2="154.94" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="139.7" x2="154.94" y2="149.86" width="0.1524" layer="91"/>
+<pinref part="C11" gate="G$1" pin="2"/>
+<junction x="154.94" y="139.7"/>
 </segment>
 </net>
 <net name="DAC_1" class="0">
@@ -2935,8 +2945,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="JP5" gate="A" pin="2"/>
 <pinref part="JP6" gate="A" pin="2"/>
 <pinref part="BNC_1" gate="G$1" pin="SIGNAL"/>
-<pinref part="TP3" gate="G$1" pin="1"/>
-<wire x1="172.72" y1="93.98" x2="172.72" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SIG_1" class="0">
@@ -2954,19 +2962,17 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="OP_" gate="A" pin="IN-"/>
 <pinref part="C5" gate="G$1" pin="1"/>
 <pinref part="OP_" gate="A" pin="OUT"/>
+<pinref part="TP9" gate="G$1" pin="1"/>
+<wire x1="66.04" y1="88.9" x2="66.04" y2="86.36" width="0.1524" layer="91"/>
+<junction x="66.04" y="86.36"/>
 </segment>
 <segment>
-<wire x1="111.76" y1="134.62" x2="109.22" y2="134.62" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="S1"/>
+<wire x1="116.84" y1="134.62" x2="114.3" y2="134.62" width="0.1524" layer="91"/>
 <label x="106.68" y="134.62" size="1.778" layer="95"/>
-<pinref part="SWITCH" gate="G$1" pin="NC"/>
 </segment>
 </net>
 <net name="SIG_2" class="0">
-<segment>
-<wire x1="147.32" y1="139.7" x2="149.86" y2="139.7" width="0.1524" layer="91"/>
-<label x="147.32" y="139.7" size="1.778" layer="95"/>
-<pinref part="SWITCH" gate="G$1" pin="NO"/>
-</segment>
 <segment>
 <wire x1="58.42" y1="35.56" x2="66.04" y2="35.56" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="35.56" x2="66.04" y2="22.86" width="0.1524" layer="91"/>
@@ -2981,26 +2987,29 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="C7" gate="G$1" pin="1"/>
 <pinref part="OP_" gate="B" pin="OUT"/>
 <pinref part="OP_" gate="B" pin="IN-"/>
+<pinref part="TP10" gate="G$1" pin="1"/>
+<wire x1="66.04" y1="38.1" x2="66.04" y2="35.56" width="0.1524" layer="91"/>
+<junction x="66.04" y="35.56"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="S2"/>
+<wire x1="116.84" y1="132.08" x2="114.3" y2="132.08" width="0.1524" layer="91"/>
+<label x="106.68" y="132.08" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SW_CNTRL" class="0">
-<segment>
-<wire x1="147.32" y1="129.54" x2="149.86" y2="129.54" width="0.1524" layer="91"/>
-<label x="147.32" y="129.54" size="1.778" layer="95"/>
-<pinref part="SWITCH" gate="G$1" pin="IN"/>
-</segment>
 <segment>
 <pinref part="SUB-D" gate="-1" pin="31"/>
 <wire x1="129.54" y1="22.86" x2="134.62" y2="22.86" width="0.1524" layer="91"/>
 <label x="148.844" y="22.86" size="1.778" layer="95" rot="MR0"/>
 </segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="IN"/>
+<wire x1="116.84" y1="129.54" x2="114.3" y2="129.54" width="0.1524" layer="91"/>
+<label x="106.68" y="127" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SW_COM" class="0">
-<segment>
-<wire x1="111.76" y1="139.7" x2="109.22" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="SWITCH" gate="G$1" pin="COM"/>
-<label x="104.14" y="139.7" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="BNC_2" gate="G$1" pin="SIGNAL"/>
 <pinref part="JP1" gate="A" pin="1"/>
@@ -3010,18 +3019,24 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <junction x="99.06" y="88.9"/>
 <label x="96.52" y="99.06" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="N$2" class="0">
 <segment>
-<wire x1="147.32" y1="124.46" x2="149.86" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="SWITCH" gate="G$1" pin="N.C."/>
+<pinref part="IC1" gate="G$1" pin="D"/>
+<wire x1="142.24" y1="132.08" x2="144.78" y2="132.08" width="0.1524" layer="91"/>
+<label x="142.24" y="132.08" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$9" class="0">
 <segment>
-<pinref part="JP2" gate="A" pin="1"/>
 <pinref part="BNC_3" gate="G$1" pin="SIGNAL"/>
-<wire x1="93.98" y1="73.66" x2="101.6" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="88.9" x2="121.92" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="73.66" x2="119.38" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="73.66" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
+<pinref part="JP3" gate="A" pin="2"/>
+<pinref part="JP4" gate="A" pin="2"/>
+<junction x="119.38" y="73.66"/>
+<pinref part="TP2" gate="G$1" pin="1"/>
+<wire x1="119.38" y1="68.58" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="73.66" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DAC_2" class="0">
@@ -3051,9 +3066,15 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <label x="109.22" y="40.64" size="1.778" layer="95" rot="MR0"/>
 </segment>
 <segment>
-<wire x1="137.16" y1="88.9" x2="142.24" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="88.9" x2="139.7" y2="88.9" width="0.1524" layer="91"/>
 <label x="144.78" y="88.9" size="1.778" layer="95"/>
 <pinref part="JP3" gate="A" pin="1"/>
+<pinref part="JP1" gate="A" pin="2"/>
+<wire x1="139.7" y1="88.9" x2="142.24" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="88.9" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="96.52" x2="139.7" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="96.52" x2="139.7" y2="88.9" width="0.1524" layer="91"/>
+<junction x="139.7" y="88.9"/>
 </segment>
 </net>
 <net name="IN-1_A" class="0">
@@ -3084,7 +3105,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <segment>
 <pinref part="SUB-D" gate="-1" pin="8"/>
 <label x="109.22" y="33.02" size="1.778" layer="95" rot="MR0"/>
-<pinref part="TP5" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -3095,16 +3115,19 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <label x="106.68" y="30.48" size="1.778" layer="95" rot="MR0"/>
 </segment>
 <segment>
-<wire x1="190.5" y1="81.28" x2="195.58" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="81.28" x2="193.04" y2="81.28" width="0.1524" layer="91"/>
 <label x="198.12" y="81.28" size="1.778" layer="95"/>
 <pinref part="JP6" gate="A" pin="1"/>
+<pinref part="TP3" gate="G$1" pin="1"/>
+<wire x1="193.04" y1="81.28" x2="195.58" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="76.2" x2="193.04" y2="81.28" width="0.1524" layer="91"/>
+<junction x="193.04" y="81.28"/>
 </segment>
 </net>
 <net name="IN-5_B" class="0">
 <segment>
 <pinref part="SUB-D" gate="-1" pin="10"/>
 <label x="106.68" y="27.94" size="1.778" layer="95" rot="MR0"/>
-<pinref part="TP6" gate="G$1" pin="1"/>
 <wire x1="114.3" y1="27.94" x2="96.52" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -3112,7 +3135,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <segment>
 <pinref part="SUB-D" gate="-1" pin="11"/>
 <label x="106.68" y="25.4" size="1.778" layer="95" rot="MR0"/>
-<pinref part="TP7" gate="G$1" pin="1"/>
 <wire x1="114.3" y1="25.4" x2="93.98" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -3120,7 +3142,6 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <segment>
 <pinref part="SUB-D" gate="-1" pin="12"/>
 <label x="106.68" y="22.86" size="1.778" layer="95" rot="MR0"/>
-<pinref part="TP8" gate="G$1" pin="1"/>
 <wire x1="91.44" y1="22.86" x2="114.3" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
