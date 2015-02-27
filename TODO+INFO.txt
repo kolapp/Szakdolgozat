@@ -1,13 +1,13 @@
 --------------------- T O D O ---------------------------
 FONTOS #2:
-- labview progi átviteli fgv méréshez
+*- labview progi átviteli fgv méréshez
 - see MSE 9. óra, AC-Transfer.vi
 - see MSE 11 óra
 
 NEM annyira fontos:
 - 256 mintáig tárolni (127 helyett) + esetleg belsõ memóriába
 - DMA-s mérés
-- visszamérni/számolni a valós signal freq-et
+*- visszamérni/számolni a valós signal freq-et
 
 
 

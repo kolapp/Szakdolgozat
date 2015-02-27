@@ -183,14 +183,14 @@ void Send_ADC_data() {
 	TR2 = 0; // Disable TMR2
 	
 	// send input data to pc
-	for (i=0; i<num_of_samples *2+1; i++) {
+	for (i=0; i<num_of_samples *2/*+1*/; i++) {
 		SOut(INPUT_MEASURE(i)); // HI
 		i++;
 		SOut(INPUT_MEASURE(i)); // LO
 	}
 	
 	// send output data to pc
-	for (i=0; i<num_of_samples *2+1; i++) {
+	for (i=0; i<num_of_samples *2/*+1*/; i++) {
 		SOut(OUTPUT_MEASURE(i)); // HI
 		i++;
 		SOut(OUTPUT_MEASURE(i)); // LO
