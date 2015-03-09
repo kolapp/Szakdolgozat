@@ -19,7 +19,7 @@
 
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
-#define DEBUG_ON
+//#define DEBUG_ON
 
 #define CTS P2_0
 #define RTS P2_1
