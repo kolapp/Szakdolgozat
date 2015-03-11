@@ -181,6 +181,9 @@ void Send_ADC_data() {
 	// ADC alljon meg kuldes alatt
 	SFRPAGE   = TMR2_PAGE;
 	TR2 = 0; // Disable TMR2
+	// legkozelebb 0V-rol induljon a DAC: 
+	DAC0H = 0x80;
+	DAC0L = 0;
 	
 	// send input data to pc
 	for (i=0; i<num_of_samples *2/*+1*/; i++) {
