@@ -2578,10 +2578,10 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 </class>
 </classes>
 <parts>
-<part name="C1" library="Zoli2_2015-01-28" deviceset="C" device="1206"/>
-<part name="C2" library="Zoli2_2015-01-28" deviceset="C" device="1206"/>
-<part name="C3" library="Zoli2_2015-01-28" deviceset="C" device="1206"/>
-<part name="C4" library="Zoli2_2015-01-28" deviceset="C" device="1206"/>
+<part name="C1" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C2" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C3" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C4" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="R1" library="Zoli2_2015-01-28" deviceset="R" device="1206"/>
 <part name="R2" library="Zoli2_2015-01-28" deviceset="R" device="1206"/>
