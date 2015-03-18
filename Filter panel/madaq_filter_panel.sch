@@ -2579,9 +2579,9 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 </classes>
 <parts>
 <part name="C1" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
-<part name="C2" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C2" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="10u"/>
 <part name="C3" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
-<part name="C4" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C4" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="10u"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="R1" library="Zoli2_2015-01-28" deviceset="R" device="1206"/>
 <part name="R2" library="Zoli2_2015-01-28" deviceset="R" device="1206"/>
@@ -2602,8 +2602,8 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="P-2" library="supply1" deviceset="-5V" device=""/>
 <part name="P+2" library="supply1" deviceset="+5V" device=""/>
-<part name="C9" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="0.1 uF"/>
-<part name="C10" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="0.1 uF"/>
+<part name="C12" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
+<part name="C10" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="JP3" library="jumper" deviceset="JP1Q" device=""/>
@@ -2621,7 +2621,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
 <part name="TP4" library="MRobi" deviceset="TP" device=""/>
 <part name="IC1" library="MRobi" deviceset="ADG419" device="BR"/>
-<part name="C11" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="0.1 uF"/>
+<part name="C11" library="Zoli2_2015-01-28" deviceset="C" device="1206" value="100n"/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
 <part name="TP9" library="MRobi" deviceset="TP" device=""/>
@@ -2664,7 +2664,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <instance part="GND1" gate="1" x="154.94" y="111.76"/>
 <instance part="P-2" gate="1" x="147.32" y="104.14"/>
 <instance part="P+2" gate="1" x="96.52" y="152.4"/>
-<instance part="C9" gate="G$1" x="96.52" y="134.62"/>
+<instance part="C12" gate="G$1" x="96.52" y="134.62"/>
 <instance part="C10" gate="G$1" x="154.94" y="121.92"/>
 <instance part="GND5" gate="1" x="111.76" y="119.38"/>
 <instance part="GND6" gate="1" x="96.52" y="127"/>
@@ -2725,7 +2725,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="GND1" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="C9" gate="G$1" pin="1"/>
+<pinref part="C12" gate="G$1" pin="1"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -2900,7 +2900,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <pinref part="P+2" gate="1" pin="+5V"/>
 <pinref part="IC1" gate="G$1" pin="VL"/>
 <wire x1="116.84" y1="139.7" x2="96.52" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="C9" gate="G$1" pin="2"/>
+<pinref part="C12" gate="G$1" pin="2"/>
 <wire x1="96.52" y1="137.16" x2="96.52" y2="139.7" width="0.1524" layer="91"/>
 <junction x="96.52" y="139.7"/>
 </segment>

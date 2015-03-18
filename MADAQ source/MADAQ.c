@@ -17,12 +17,22 @@
 #define SIZE 256
 #define samples(addr) (*((unsigned char __xdata *)(addr)))
 
+#define FILTER_CONTROL P1_3
 #define LED P2_2
 #define DEBUG_PORT P0_2 // kapcsolasi rajzon talaltam egy szabad labat...
 //#define DEBUG_ON
 
 #define CTS P2_0
 #define RTS P2_1
+
+#define MUX1A0 P2_4
+#define MUX1A1 P2_3
+#define MUX2A0 P2_5
+#define MUX2A1 P2_6
+#define MUX1EN P1_4		// PGA chip select
+#define MUX2EN P1_5		// PGA chip select
+
+
 
 __bit evenOdd = 0; // signal-gen delay
 __bit handshake; // handshaking needed
@@ -182,8 +192,9 @@ void Send_ADC_data() {
 	SFRPAGE   = TMR2_PAGE;
 	TR2 = 0; // Disable TMR2
 	// legkozelebb 0V-rol induljon a DAC: 
-	DAC0H = 0x80;
-	DAC0L = 0;
+	SFRPAGE = DAC1_PAGE;
+	DAC1H = 0x80;
+	DAC1L = 0;
 	
 	// send input data to pc
 	for (i=0; i<num_of_samples *2/*+1*/; i++) {
@@ -263,13 +274,14 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		// jel generalas mintakbol
 		// DAC0H = SAMPLES(n); n++;
 		// DAC0L = SAMPLES(n); n++;
+		mov	_SFRPAGE,#0x01 // DAC1_PAGE
 		mov	dpl,_n
 		mov	dph,#0x00
 		movx	a,@dptr
-		mov	_DAC0H,a
+		mov	_DAC1H,a
 		inc dpl
 		movx	a,@dptr
-		mov	_DAC0L,a
+		mov	_DAC1L,a
 		inc	_n
 		inc	_n
 	__endasm;
@@ -323,6 +335,19 @@ void main() {
 			Send_ADC_data();
 		}
 		
+		else if (c=='1') // set channel IN0...IN3 ??
+		{
+			c=SInOut();
+			MUX1A0 = c & 1;
+			MUX1A1 = c & 2;
+		}
+		else if (c=='2') // set channel IN4...IN7 ??
+		{
+			c=SInOut();
+			MUX2A0 = c & 1;
+			MUX2A1 = c & 2;
+		}
+		
 		// set DAC0
 		else if (c=='d') {
 			unsigned char a; 
@@ -371,8 +396,8 @@ void main() {
 		
 		// generate sample signal
 		else if (c=='g') {
-		    SFRPAGE   = DAC0_PAGE;
-		    DAC0CN    = 0x84;
+		    SFRPAGE   = DAC1_PAGE;
+		    DAC1CN    = 0x84;
 			
 			SFRPAGE   = TMR2_PAGE;
 			TR2 = 1; // Enable TMR2

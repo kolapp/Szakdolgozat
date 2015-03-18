@@ -670,15 +670,15 @@ design rules under a new name.</description>
 <element name="BNC_2" library="Zoli2_2015-01-28" package="BNCPCB90I" value="" x="50.7" y="44.5" rot="R180"/>
 <element name="BNC_3" library="Zoli2_2015-01-28" package="BNCPCB90I" value="" x="23.88" y="44.5" rot="R180"/>
 <element name="C1" library="Zoli2_2015-01-28" package="C1206" value="100n" x="71.8" y="49.67" rot="MR180"/>
-<element name="C10" library="Zoli2_2015-01-28" package="C1206" value="0.1 uF" x="56.81" y="58.39" rot="MR90"/>
-<element name="C2" library="Zoli2_2015-01-28" package="C1206" value="100n" x="71.78" y="52.27" rot="MR180"/>
+<element name="C10" library="Zoli2_2015-01-28" package="C1206" value="100n" x="56.81" y="58.39" rot="MR90"/>
+<element name="C2" library="Zoli2_2015-01-28" package="C1206" value="10u" x="71.78" y="52.27" rot="MR180"/>
 <element name="C3" library="Zoli2_2015-01-28" package="C1206" value="100n" x="72.53" y="62.75" rot="MR180"/>
-<element name="C4" library="Zoli2_2015-01-28" package="C1206" value="100n" x="72.64" y="60.25" rot="MR180"/>
+<element name="C4" library="Zoli2_2015-01-28" package="C1206" value="10u" x="72.64" y="60.25" rot="MR180"/>
 <element name="C5" library="Zoli2_2015-01-28" package="C1206" value="" x="62.88" y="56.21" rot="MR0"/>
 <element name="C6" library="Zoli2_2015-01-28" package="C1206" value="" x="62.6" y="61.39" rot="MR180"/>
 <element name="C7" library="Zoli2_2015-01-28" package="C1206" value="" x="81.88" y="55.59" rot="MR180"/>
 <element name="C8" library="Zoli2_2015-01-28" package="C1206" value="" x="81.84" y="61.21" rot="MR0"/>
-<element name="C9" library="Zoli2_2015-01-28" package="C1206" value="0.1 uF" x="49.02" y="58.48" rot="MR270"/>
+<element name="C12" library="Zoli2_2015-01-28" package="C1206" value="100n" x="49.02" y="58.48" rot="MR270"/>
 <element name="JP1" library="jumper" package="JP1" value="" x="21.26" y="57.37"/>
 <element name="JP3" library="jumper" package="JP1" value="" x="28.84" y="57.43" rot="R180"/>
 <element name="JP4" library="jumper" package="JP1" value="" x="32.19" y="57.43" rot="R180"/>
@@ -705,7 +705,7 @@ design rules under a new name.</description>
 <element name="TP3" library="MRobi" package="JP1" value="TP" x="43.84" y="61.13"/>
 <element name="TP4" library="MRobi" package="JP1" value="TP" x="67.45" y="62.16"/>
 <element name="IC1" library="MRobi" package="SO08" value="" x="53" y="58" rot="MR0"/>
-<element name="C11" library="Zoli2_2015-01-28" package="C1206" value="0.1 uF" x="46.4" y="58.6" rot="MR270"/>
+<element name="C11" library="Zoli2_2015-01-28" package="C1206" value="100n" x="46.4" y="58.6" rot="MR270"/>
 <element name="TP9" library="MRobi" package="JP1" value="TP" x="63.8" y="49"/>
 <element name="TP10" library="MRobi" package="JP1" value="TP" x="58" y="54.4"/>
 </elements>
@@ -718,7 +718,7 @@ design rules under a new name.</description>
 <contactref element="C2" pad="1"/>
 <contactref element="C1" pad="1"/>
 <contactref element="C10" pad="1"/>
-<contactref element="C9" pad="1"/>
+<contactref element="C12" pad="1"/>
 <contactref element="BNC_3" pad="SHIELD"/>
 <contactref element="BNC_1" pad="SHIELD"/>
 <contactref element="BNC_2" pad="SHIELD"/>
@@ -843,7 +843,7 @@ design rules under a new name.</description>
 <wire x1="74.05" y1="52.2" x2="76.2" y2="52.2" width="0.6096" layer="16"/>
 <wire x1="76.2" y1="52.2" x2="77.4" y2="53.4" width="0.6096" layer="16"/>
 <contactref element="IC1" pad="5"/>
-<contactref element="C9" pad="2"/>
+<contactref element="C12" pad="2"/>
 <contactref element="IC1" pad="4"/>
 <contactref element="C11" pad="2"/>
 <wire x1="51.095" y1="60.6" x2="51.095" y2="58.2" width="0.6096" layer="16"/>

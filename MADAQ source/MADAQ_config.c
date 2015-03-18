@@ -91,7 +91,7 @@ void Port_IO_Init()
     // P1.0  -  Unassigned,  Open-Drain, Digital
     // P1.1  -  Unassigned,  Open-Drain, Digital
     // P1.2  -  Unassigned,  Open-Drain, Digital
-    // P1.3  -  Unassigned,  Open-Drain, Digital
+    // P1.3  -  Unassigned,  Push-Pull,  Digital
     // P1.4  -  Unassigned,  Open-Drain, Digital
     // P1.5  -  Unassigned,  Open-Drain, Digital
     // P1.6  -  Unassigned,  Open-Drain, Digital
@@ -117,6 +117,7 @@ void Port_IO_Init()
 
     SFRPAGE   = CONFIG_PAGE;
     P0MDOUT   = 0x05;
+    P1MDOUT   = 0x08;
     P2MDOUT   = 0x7A;
     P3MDOUT   = 0x07;
     P4MDOUT   = 0xE0;
