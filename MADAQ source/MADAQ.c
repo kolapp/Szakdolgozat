@@ -391,7 +391,7 @@ void main() {
 		// set TMR2 RLD value - f, mint freq
 		else if (c=='f') {
 			RCAP2H   = SInOut();	// hi
-			RCAP2L   = SInOut();	// lo
+			RCAP2L   = SInOut(); // lo
 		}
 		
 		// generate sample signal
@@ -406,6 +406,11 @@ void main() {
 			AD0EN = 1; // Enable ADC0	
 			SFRPAGE   = ADC1_PAGE;
 			AD1EN = 1; // Enable ADC1
+		}
+		else if (c=='C') {
+			// 0 = fs < 1200 Hz
+			// 1 = fs > 1200 Hz			
+			FILTER_CONTROL = SInOut() & 1;
 		}
 		
 		// teszt: mert jel generalasa (ellenorzes)
