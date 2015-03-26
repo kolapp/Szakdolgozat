@@ -48,6 +48,21 @@ volatile __bit EvenOddSample;
 __xdata unsigned char fifo[16];
 
 
+void ADC_Config(unsigned char convertmode)
+{
+	SFRPAGE   = ADC0_PAGE;
+	if (convertmode == 2) ADC0CN = 0x88;	// ext trig
+	else if (convertmode == 1) ADC0CN = 0x8C;	// timer2
+	else ADC0CN = 0x80;	// write to AD0BUSY
+	AD0INT=0;
+
+	SFRPAGE   = ADC1_PAGE;
+	if (convertmode == 2) ADC1CN = 0x88;	// ext trig
+	else if (convertmode == 1) ADC1CN = 0x8C;	// timer2
+	else ADC1CN = 0x82;	// write to AD0BUSY
+	AD1INT=0;
+}
+
 // Wait for a byte from serial port (UART1-FT232RL USB) 
 unsigned char SIn(void)
 {
@@ -168,7 +183,7 @@ void Convert(unsigned char avr)
 	d0=0;
 	d1=0;
 	oldsfrpage=SFRPAGE;
-	ADC_Init(0);
+	ADC_Config(0);
 	SFRPAGE=ADC1_PAGE;
 	AD1INT=0;
 	SFRPAGE=ADC0_PAGE;
@@ -305,7 +320,7 @@ void ContSampling(void)
 	}
 	SFRPAGE   = TMR2_PAGE;
 	TMR2CN    = 0x00;
-	ADC_Init(1);
+	ADC_Config(1);
 	SFRPAGE   = ADC0_PAGE;
 	AD0INT=0;
 	SFRPAGE   = ADC1_PAGE;
@@ -357,7 +372,7 @@ void SamplingToSRAM(unsigned char blocks)
 	}
 	SFRPAGE   = TMR2_PAGE;
 	TMR2CN    = 0x00;
-	ADC_Init(1);
+	ADC_Config(1);
 	SFRPAGE   = ADC0_PAGE;
 	AD0INT=0;
 	SFRPAGE   = ADC1_PAGE;
@@ -516,6 +531,14 @@ void main()
 	unsigned char c;
 
 	Init_Device();
+	
+	// UART init
+	SFRPAGE   = UART0_PAGE;
+	TI0=1;
+	RI0=0;
+	SFRPAGE   = UART1_PAGE;
+	TI1=1;
+	RI1=0;
 
 	CheckSRAMs();
 

@@ -2,96 +2,83 @@
 //  Generated Initialization File  //
 /////////////////////////////////////
 
+#include "C8051F060.h"
+
 // Peripheral specific initialization functions,
 // Called from the Init_Device() function
 void Reset_Sources_Init()
 {
-	WDTCN     = 0xDE;
-	WDTCN     = 0xAD;
+    WDTCN     = 0xDE;
+    WDTCN     = 0xAD;
 }
 
 void Timer_Init()
 {
-	SFRPAGE   = TIMER01_PAGE;
-	TCON      = 0x40;
-	TMOD      = 0x20;
-	CKCON     = 0x10;
-	TH1       = 0x98;
-	SFRPAGE   = TMR2_PAGE;
-	TMR2CN    = 0x04;
-	TMR2CF    = 0x02;
-	RCAP2L    = 0x9C;
-	RCAP2H    = 0xFF;
-	SFRPAGE   = TMR3_PAGE;
-	TMR3CN    = 0x04;
-	TMR3CF    = 0x08;
-	RCAP3L    = 0xFF;
-	RCAP3H    = 0xFF;
+    SFRPAGE   = TIMER01_PAGE;
+    TCON      = 0x40;
+    TMOD      = 0x20;
+    CKCON     = 0x10;
+    TH1       = 0x98;
+    SFRPAGE   = TMR2_PAGE;
+    TMR2CN    = 0x04;
+    RCAP2L    = 0x9C;
+    RCAP2H    = 0xFF;
+    SFRPAGE   = TMR3_PAGE;
+    TMR3CN    = 0x04;
+    TMR3CF    = 0x08;
+    RCAP3L    = 0xFF;
+    RCAP3H    = 0xFF;
 }
 
 void UART_Init()
 {
-	SFRPAGE   = UART0_PAGE;
-	SCON0     = 0x50;
-	SSTA0     = 0x1A;
-	TI0=1;
-	RI0=0;
-	SFRPAGE   = UART1_PAGE;
-	SCON1     = 0x50;
-	TI1=1;
-	RI1=0;
+    SFRPAGE   = UART0_PAGE;
+    SCON0     = 0x50;
+    SSTA0     = 0x1A;
+    SFRPAGE   = UART1_PAGE;
+    SCON1     = 0x50;
 }
 
 void SMBus_Init()
 {
-	SFRPAGE   = SMB0_PAGE;
-	SMB0CN    = 0x40;
-	SMB0CR    = 0x91;
+    SFRPAGE   = SMB0_PAGE;
+    SMB0CN    = 0x40;
+    SMB0CR    = 0x91;
 }
 
-void ADC_Init(unsigned char convertmode)
+void ADC_Init()
 {
-	SFRPAGE   = ADC0_PAGE;
-	ADC0CF    = 0x10;
-	if (convertmode == 2) ADC0CN = 0x88;	// ext trig
-	else if (convertmode == 1) ADC0CN = 0x8C;	// timer2
-	else ADC0CN = 0x80;	// write to AD0BUSY
-	AD0INT=0;
-	SFRPAGE   = ADC1_PAGE;
-	ADC1CF    = 0x10;
-	if (convertmode == 2) ADC1CN = 0x88;	// ext trig
-	else if (convertmode == 1) ADC1CN = 0x8C;	// timer2
-	else ADC1CN = 0x82;	// write to AD0BUSY
-	AD1INT=0;
+    SFRPAGE   = ADC0_PAGE;
+    ADC0CF    = 0x10;
+    ADC0CN    = 0x8C;
+    SFRPAGE   = ADC1_PAGE;
+    ADC1CF    = 0x10;
+    ADC1CN    = 0x8C;
 }
 
 void DAC_Init()
 {
-	SFRPAGE   = DAC0_PAGE;
-	DAC0CN    = 0x84;
-	DAC0L     = 0x00;
-	DAC0H     = 0x80;
-	SFRPAGE   = DAC1_PAGE;
-	DAC1CN    = 0x84;		// left justified, update on write to DAC0H
-	DAC1L     = 0x00;
-	DAC1H     = 0x80;
+    SFRPAGE   = DAC0_PAGE;
+    DAC0CN    = 0x84;
+    SFRPAGE   = DAC1_PAGE;
+    DAC1CN    = 0x84;
 }
 
 void EMI_Init()
 {
-	SFRPAGE   = EMI0_PAGE;
-	EMI0CF    = 0x3F;
-	EMI0TC    = 0x45;
+    SFRPAGE   = EMI0_PAGE;
+    EMI0CF    = 0x3F;
+    EMI0TC    = 0x45;
 }
 
 void Voltage_Reference_Init()
 {
-	SFRPAGE   = ADC0_PAGE;
-	REF0CN    = 0x02;
-	SFRPAGE   = ADC1_PAGE;
-	REF1CN    = 0x02;
-	SFRPAGE   = ADC2_PAGE;
-	REF2CN    = 0x02;
+    SFRPAGE   = ADC0_PAGE;
+    REF0CN    = 0x02;
+    SFRPAGE   = ADC1_PAGE;
+    REF1CN    = 0x02;
+    SFRPAGE   = ADC2_PAGE;
+    REF2CN    = 0x02;
 }
 
 void Port_IO_Init()
@@ -147,33 +134,34 @@ void Port_IO_Init()
 
 void Oscillator_Init()
 {
-	int i = 0;
-	SFRPAGE   = CONFIG_PAGE;
-	OSCXCN    = 0x67;
-	for (i = 0; i < 3000; i++);  // Wait 1ms for initialization
-	while ((OSCXCN & 0x80) == 0);
-	CLKSEL    = 0x01;
+    int i = 0;
+    SFRPAGE   = CONFIG_PAGE;
+    SFRPAGE   = CONFIG_PAGE;
+    OSCXCN    = 0x67;
+    for (i = 0; i < 3000; i++);  // Wait 1ms for initialization
+    while ((OSCXCN & 0x80) == 0);
+    CLKSEL    = 0x01;
 }
 
 void Interrupts_Init()
 {
-	IE        = 0x00;
-	EIE1      = 0x80;
+    IE        = 0x80;
+    EIE1      = 0x80;
 }
 
 // Initialization function for device,
 // Call Init_Device() from your main program
 void Init_Device(void)
 {
-	Reset_Sources_Init();
-	Timer_Init();
-	UART_Init();
-	SMBus_Init();
-	ADC_Init(0);
-	DAC_Init();
-	EMI_Init();
-	Voltage_Reference_Init();
-	Port_IO_Init();
-	Oscillator_Init();
-	Interrupts_Init();
+    Reset_Sources_Init();
+    Timer_Init();
+    UART_Init();
+    SMBus_Init();
+    ADC_Init();
+    DAC_Init();
+    EMI_Init();
+    Voltage_Reference_Init();
+    Port_IO_Init();
+    Oscillator_Init();
+    Interrupts_Init();
 }
