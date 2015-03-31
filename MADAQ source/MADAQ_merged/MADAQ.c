@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "C8051F060.h"
 #include "MADAQ_cfg.c"
@@ -694,7 +695,13 @@ void main()
 
 	MUX1EN = 1;
 	MUX2EN = 1;
-
+	
+	// digital in test
+	P0MDOUT |= 0xFC; // P0_2 - P0_7 open drain
+	P1MDOUT |= 0x0F; // P0_0 - P0_3 open drain
+	P0 &= 0x03; // enable input for ports seen above
+	P1 &= 0xF0;
+	
 	while (1)
 	{
 		while (SInOut()!='@');
@@ -703,6 +710,14 @@ void main()
 		{
 			SendID();
 		}
+		
+/* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
+		else if (c=='a') {
+			SOut(P0);
+			SOut(P1);
+		}
+/* =============================================================== */
+		
 /* ============[ 2CH AND TRANSFER FUNCTION MEASUREMENT ] ========= */
 		else if (c=='S') {
 			Send_ADC_data();
