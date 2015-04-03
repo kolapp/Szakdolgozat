@@ -36,7 +36,7 @@ void Delay_ms(short ms) {
 void SendID() {
 	unsigned char *s;
 
-	s="victory";
+	s="potato";
 	do
 	{
 		SOut(*s);
@@ -77,12 +77,20 @@ void main(void){
 		{
 			SendID();
 		}
-/* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
-		else if (c=='a') {
+		else if (c=='a') 
+		{
 			SOut(P1);
 			SOut(P2);
 		}
-/* =============================================================== */
+		// set IDA0
+		else if (c=='d') 
+		{
+			unsigned char a; 
+			c=SInOut();	// hi
+			a=SInOut();	// lo
+			IDA0L=a;
+			IDA0H=c;
+		}
 	}
 
 }
