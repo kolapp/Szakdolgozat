@@ -17,7 +17,9 @@ void Timer_Init()
 {
     TCON      = 0x40;
     TMOD      = 0x22;
-    TH1       = 0x96;
+    CKCON     = 0x08;
+    TL1       = 0xFF;
+    TH1       = 0xF8;
 }
 
 void UART_Init()

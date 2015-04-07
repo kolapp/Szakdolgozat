@@ -36,7 +36,7 @@ void Delay_ms(short ms) {
 void SendID() {
 	unsigned char *s;
 
-	s="potato";
+	s="F410-STICK (c) 23/03/2015 www.inf.u-szeged.hu/noise";
 	do
 	{
 		SOut(*s);
