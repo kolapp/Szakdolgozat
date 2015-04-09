@@ -1,7 +1,5 @@
 del *.hex
-del *.#1
-del *.#2
-del *.#3
+del *.#*
 del *.adb
 del *.cdb
 del *.lk
@@ -13,6 +11,7 @@ del *.rst
 del *.sym
 del *.out
 del *.omf
+del *.asm
 
 del *autosave*
 del *.s#*
