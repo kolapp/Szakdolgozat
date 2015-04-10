@@ -20,6 +20,7 @@ void Timer_Init()
     CKCON     = 0x10;
     TH1       = 0x98;
     SFRPAGE   = TMR2_PAGE;
+    TMR2CN    = 0x04;
     TMR2CF    = 0x08;
     SFRPAGE   = TMR3_PAGE;
     TMR3CN    = 0x04;
@@ -48,10 +49,10 @@ void ADC_Init()
 {
     SFRPAGE   = ADC0_PAGE;
     ADC0CF    = 0x10;
-    ADC0CN    = 0x8C;
+    ADC0CN    = 0x0C;
     SFRPAGE   = ADC1_PAGE;
     ADC1CF    = 0x10;
-    ADC1CN    = 0x8C;
+    ADC1CN    = 0x0C;
 }
 
 void DAC_Init()

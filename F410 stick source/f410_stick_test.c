@@ -50,16 +50,6 @@ void main(void){
 
 	Init_Device();
 	
-	// init
-	for (i=0; i<6; i++) {
-		c = light[i];
-		L1 = c & 0x01;
-		L2 = c & 0x02;
-		L3 = c & 0x04;
-		L4 = c & 0x08;			
-		Delay_ms(50);
-	}
-	
 	// UART init
 	TI = 1;
 	RI = 0;
@@ -69,6 +59,10 @@ void main(void){
 	P1MDOUT = 0xF8; // P1_3 - P1_7 as open drain
 	P2 = 0;
 	P1 &= 0x07;
+	
+	// disable LEDs
+	L4 = 0;
+	L3 = 0;
 	
 	while(1) {
 		while (SInOut()!='@');
@@ -91,6 +85,8 @@ void main(void){
 			IDA0L=a;
 			IDA0H=c;
 		}
+		// heater on off indicator
+		L4 = P1_7;
 	}
 
 }

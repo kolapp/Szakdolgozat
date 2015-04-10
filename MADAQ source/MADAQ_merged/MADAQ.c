@@ -30,20 +30,19 @@
 #define SET_ADDRESS_HI(x) (P3=(P3 & 0xF8) | (((x)>>16) & 0x07));
 
 /* =====================[ 2CH AND TRANSFER FUNCTION MEASUREMENT ] ===================== */
-#define SAMPLES(addr) (*((unsigned char __xdata *)(addr))) // jelgen. mintak [0, 255] cimen
-#define INPUT_MEASURE(addr) (*((unsigned char __xdata *)(256 + addr))) // mert adatok [256, 511] cimen
-#define OUTPUT_MEASURE(addr) (*((unsigned char __xdata *)(512 + addr))) // mert adatok [512, 767] cimen
+#define SAMPLES(addr) (*((unsigned char __xdata *)(addr))) // signal gen. data on [0, 255] address
+#define INPUT_MEASURE(addr) (*((unsigned char __xdata *)(256 + addr))) // measured data on [256, 511] address
+#define OUTPUT_MEASURE(addr) (*((unsigned char __xdata *)(512 + addr))) // measured data on [512, 767] address
 
 #define FILTER_CONTROL P1_3
-#define LED P2_2
-#define DEBUG_PORT P0_2 // egy szabad port altalanos+debug celokra
-//#define DEBUG_ON
+#define DEBUG_PORT P0_2 // a free pin for debug purposes
+// #define DEBUG_ON
 
 INT8U i = 0; 
 INT8U j = 0; 
 INT8U n = 0;
 
-INT8U num_of_samples = 0; // memoriaban 2*num_of_samples db byte van!
+INT8U num_of_samples = 0; // 2 bytes/sample in the memory!
 /*  =================================================================================== */
 
 unsigned char dly_cycles=225;
@@ -66,7 +65,7 @@ volatile __bit EvenOddSample;
 
 __xdata unsigned char fifo[16];
 
-
+// select ADC operating mode
 void ADC_Config(unsigned char convertmode)
 {
 	SFRPAGE   = ADC0_PAGE;
@@ -135,6 +134,7 @@ unsigned char SInOut(void)
 	unsigned char saved_sfrpage;
 	unsigned char c;
 
+
 	saved_sfrpage=SFRPAGE;
 	SFRPAGE   = UART0_PAGE;
 	while (!RI0);
@@ -152,7 +152,7 @@ void SendID()
 {
 	unsigned char *s;
 
-	s="MA-DAQ (c) 23/03/2015 www.inf.u-szeged.hu/noise";
+	s="MA-DAQ (c) 10/04/2015 www.inf.u-szeged.hu/noise";
 	do
 	{
 		if (SIn()==27) break;
@@ -551,27 +551,37 @@ void test(void)
 void Send_ADC_data() {
 	INT8U i = 0;
 	
-	// ADC alljon meg kuldes alatt
+	EA = 0; // no interrupts during data exchange
+	
+	// disable ADC
+	SFRPAGE   = ADC0_PAGE;
+	AD0EN = 0;
+	SFRPAGE   = ADC1_PAGE;
+	AD1EN = 0;
+	
 	SFRPAGE   = TMR2_PAGE;
 	TR2 = 0; // Disable TMR2
-	// legkozelebb 0V-rol induljon a DAC: 
+
+	// set DAC to 0V
 	SFRPAGE = DAC1_PAGE;
 	DAC1H = 0x80;
 	DAC1L = 0;
 	
 	// send input data to pc
 	for (i=0; i<num_of_samples *2/*+1*/; i++) {
-		SOut(INPUT_MEASURE(i)); // HI
+		SOut(INPUT_MEASURE(i)); // high
 		i++;
-		SOut(INPUT_MEASURE(i)); // LO
+		SOut(INPUT_MEASURE(i)); // low
 	}
 	
 	// send output data to pc
 	for (i=0; i<num_of_samples *2/*+1*/; i++) {
-		SOut(OUTPUT_MEASURE(i)); // HI
+		SOut(OUTPUT_MEASURE(i)); // high
 		i++;
-		SOut(OUTPUT_MEASURE(i)); // LO
+		SOut(OUTPUT_MEASURE(i)); // low
 	}	
+	
+	EA = 1; // re-enable interrupts
 }
 
 
@@ -584,12 +594,12 @@ void ADC0_irqhandler (void) __interrupt 13 {
 
 	AD0INT = 0;	
 	
-	// COMPILE ERROR ERROR - wtf
+	// COMPILE ERROR:
 	// if (samples_to_save != 0) {;}
 	
-	// index ellenorzes
+	// index check
 	__asm
-		// if (n >= num_of_samples *2) n = 0; // csak 127 mintaig jo!
+		// if (n >= num_of_samples *2) n = 0; // only works for <127 samples
 		clr	c
 		mov	a,_num_of_samples
 		rl a					// a *= 2; 
@@ -600,15 +610,15 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		ELSE:
 	__endasm;
 	
-	// ------ CSATORNA #1 MERES ------ 
+	// ------ CH #1 measurement ------ 
 	__asm
 		// SFRPAGE = ADC1_PAGE;
-		// i = n; j = n; // kezdoindex beallitas
+		// i = n; j = n; // set start index
 		// INPUT_MEASURE(i) = ADC1H; i++;
 		// INPUT_MEASURE(i) = ADC1L; i++;
 		mov	_SFRPAGE,#0x01
 		mov dpl,_n
-		mov dph,#0x01	// dptr: 0x0100-tol 0x01FF-ig
+		mov dph,#0x01	// dptr: from 0x0100 to 0x01FF
 		mov a,_ADC1H
 		movx @dptr,a
 		inc dpl
@@ -616,14 +626,14 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		movx @dptr,a
 	__endasm;	
 	
-	// ------ CSATORNA #2 MERES ------ 
+	// ------ CH #2 measurement ------ 
 	__asm
 		// SFRPAGE = ADC0_PAGE;
 		// OUTPUT_MEASURE(j) = ADC0H; j++;
 		// OUTPUT_MEASURE(j) = ADC0L; j++;	
 		mov	_SFRPAGE,#0x00
 		mov dpl,_n
-		mov dph,#0x02	// dptr: 0x0200-tol 0x02FF-ig
+		mov dph,#0x02	// dptr: from 0x0200 to 0x02FF
 		mov a,_ADC0H
 		movx @dptr,a
 		inc dpl
@@ -631,9 +641,8 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		movx @dptr,a
 	__endasm;
 	
-	// ------ JEL-GENERALAS ------ 
+	// ------ signal generation from samples ------ 
 	__asm 
-		// jel generalas mintakbol
 		// DAC0H = SAMPLES(n); n++;
 		// DAC0L = SAMPLES(n); n++;
 		mov	_SFRPAGE,#0x01 // DAC1_PAGE
@@ -696,7 +705,7 @@ void main()
 	MUX1EN = 1;
 	MUX2EN = 1;
 	
-	// digital in test
+	// ------------------------- digital in test ----------------------------
 	P0MDOUT |= 0xFC; // P0_2 - P0_7 open drain
 	P1MDOUT |= 0x0F; // P0_0 - P0_3 open drain
 	P0 &= 0x03; // enable input for ports seen above
@@ -709,49 +718,39 @@ void main()
 		if (c=='I')
 		{
 			SendID();
-		}
-		
-/* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
-		else if (c=='a') {
-			SOut(P0);
-			SOut(P1);
-		}
-/* =============================================================== */
-		
+		}	
 /* ============[ 2CH AND TRANSFER FUNCTION MEASUREMENT ] ========= */
+		// send 2CH measurement data to PC, "S" = send
 		else if (c=='S') {
 			Send_ADC_data();
 		}
 		
-		// tomb feltoltese mintakkal - G, mint get()
-		else if (c=='G') {	
+		// filling xdata with signal samples, "G" = get
+		else if (c=='G') {
+			EA = 0; // no interrupts during data exchange
 			SFRPAGE   = TMR2_PAGE;
-			TR2 = 0; // Disable TMR2 (kuldeskor ne nyuljon a tombhoz)
+			TR2 = 0; // Disable TMR2
 			
-			// bekeri hany elemet kell beolvasni
-			num_of_samples = SInOut();
-			// num_of_samples = (num_of_samples << 8) + SInOut(); // interrupt gyorsitashoz 8 bites-re vettem
+			num_of_samples = SInOut();		
 			
-			// tomb beolvasasa
+			// reading samples for signal generation
 			for (i=0; i < num_of_samples; i++) {
-				// who will know what happens here? not even me.
-				XRAM(2*i) = SInOut(); // paros: hi
-				XRAM(2*i+1) = SInOut(); // paratlan: lo
-			}		
+				SAMPLES(2*i) = SInOut(); // even: high
+				SAMPLES(2*i+1) = SInOut(); // odd: low
+			}
+			EA = 1; // re-enable interrupts
 		}
 		
-		// set TMR2 RLD value - f, mint freq
+		// set TMR2 RLD value, "f" = frequency
 		else if (c=='f') {
-			RCAP2H   = SInOut();	// hi
-			RCAP2L   = SInOut(); // lo
+			RCAP2H   = SInOut(); // high
+			RCAP2L   = SInOut(); // low
 		}
 		
 		// generate sample signal
 		else if (c=='g') {
-			// teszt
-			Init_Device();
 		    SFRPAGE   = DAC1_PAGE;
-		    DAC1CN    = 0x84;
+		    DAC1CN    = 0x84; // Enable DAC
 			
 			SFRPAGE   = TMR2_PAGE;
 			TR2 = 1; // Enable TMR2
@@ -762,6 +761,7 @@ void main()
 			AD1EN = 1; // Enable ADC1
 		}
 		
+		// select analog switch on external filter panel
 		else if (c=='C') {
 			// 0 = fs < 1200 Hz
 			// 1 = fs > 1200 Hz			
@@ -769,18 +769,25 @@ void main()
 		}
 		
 		// teszt: mert jel generalasa (ellenorzes)
-		else if (c=='t') {		
+		// else if (c=='t') {		
 			// ADC alljon meg kuldes alatt
-			SFRPAGE   = TMR2_PAGE;
-			TR2 = 0; // Disable TMR2			
-			for (i=0; i<num_of_samples *2+2; i++) {
-				SAMPLES(i) = INPUT_MEASURE(i);
-				i++;
-				SAMPLES(i) = INPUT_MEASURE(i);
-			}			
+			// SFRPAGE   = TMR2_PAGE;
+			// TR2 = 0; // Disable TMR2			
+			// for (i=0; i<num_of_samples *2+2; i++) {
+				// SAMPLES(i) = INPUT_MEASURE(i);
+				// i++;
+				// SAMPLES(i) = INPUT_MEASURE(i);
+			// }			
 			// ADC alljon meg kuldes alatt
-			SFRPAGE   = TMR2_PAGE;
-			TR2 = 1; 
+			// SFRPAGE   = TMR2_PAGE;
+			// TR2 = 1; 
+		// }
+/* =============================================================== */
+
+/* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
+		else if (c=='a') {
+			SOut(P0);
+			SOut(P1);
 		}
 /* =============================================================== */
 		else if (c=='x')	// switch reference voltage and resistors
