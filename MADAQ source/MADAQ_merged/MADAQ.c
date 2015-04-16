@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include "C8051F060.h"
 #include "MADAQ_cfg.c"
@@ -45,16 +44,19 @@ INT8U n = 0;
 INT8U num_of_samples = 0; // 2 bytes/sample in the memory!
 /*  =================================================================================== */
 
-unsigned char dly_cycles=225;
-unsigned long sysclk=24000000;
+unsigned char dly_cycles = 225;
+unsigned long sysclk = 24000000;
 
-__bit handshake;						// handshaking needed
-unsigned int  samplingfreq=500;
-unsigned char adc_select=3;
-unsigned int  adc0data,adc1data;			// ADC0 and ADC1 data
-unsigned char ADCConfigEven,ADCConfigOdd;		// adc0 gain and channel selection for every even sample and every odd sample
+__bit handshake;							// handshaking needed
+unsigned int  samplingfreq = 500;
+unsigned char adc_select = 3;
+unsigned int  adc0data, adc1data;			// ADC0 and ADC1 data
+unsigned char ADCConfigEven, ADCConfigOdd;	// adc0 gain and channel selection for every even sample and every odd sample
 unsigned char DAC0_mode;	// 0: normal mode, 1: function generator during smapling
-volatile unsigned char dac_increment=1, dac_index, dac_amplitude=255, dac_offset;
+/* ------- Deprecated -----------
+volatile unsigned char dac_increment=1, dac_amplitude=255, dac_offset;
+ -------------------------------- */
+volatile unsigned char dac_index;
 volatile unsigned int  fifo_rp, fifo_wp;	// fifo write and read pointers
 volatile unsigned char fifo_blocks;			// filled fifo blocks, available to read
 volatile unsigned char fifo_max_blocks;		// maximum number of fifo blocks
@@ -224,73 +226,6 @@ void Convert(unsigned char avr)
 	SFRPAGE=oldsfrpage;
 }
 
-/*
-void ADC0_irqhandler (void) __interrupt 13
-{
-	__asm
-		clr		_AD0INT
-		cpl		_EvenOddSample
-		mov 	a,_ADCConfigOdd
-		jb		_EvenOddSample,L1
-		mov 	a,_ADCConfigEven
-L1:		anl 	_P2,#0x87
-		orl 	_P2,a
-		mov 	dpl,_fifo_wp
-		mov 	dph,_fifo_wp+1
-		mov 	a,_adc_select
-		anl 	a,#1
-		jz		$00005
-		mov 	_SFRPAGE,#ADC1_PAGE
-		mov 	a,_ADC1H
-		movx 	@dptr,a
-		inc 	dptr
-		mov 	a,_ADC1L
-		movx 	@dptr,a
-		inc 	dptr
-		dec 	_samples_to_save
-$00005:	mov 	a,_adc_select
-		anl 	a,#2
-		jz		$00006
-		mov 	_SFRPAGE,#ADC0_PAGE
-		mov 	a,_ADC0H
-		movx 	@dptr,a
-		inc 	dptr
-		mov 	a,_ADC0L
-		movx 	@dptr,a
-		inc 	dptr
-		dec 	_samples_to_save
-$00006:	mov 	_fifo_wp,dpl
-		mov 	_fifo_wp+1,dph
-		mov 	a,_fifo_mode
-		jz		$00030
-		mov 	a,_samples_to_save
-		jnz		$00040
-		inc 	_fifo_blocks
-$00010:	mov 	_samples_to_save,_fifo_size
-$00020:	ajmp	$00040	
-$00030:	mov 	a,_fifo_wp+1	// non fifo mode
-		clr 	c
-		subb 	a,_fifo_max_blocks
-		jc		$00040
-		clr 	_EA
-$00040:	mov		a,_DAC0_mode
-		jz 		$00050
-		mov 	dptr,#_sinetable
-		mov 	a,_dac_index
-		add 	a,_dac_increment
-		mov 	_dac_index,a
-		movc 	a,@a+dptr
-		mov 	_SFRPAGE,#DAC1_PAGE
-		mov 	b,_dac_amplitude
-		mul		ab
-		mov 	a,b
-		add 	a,_dac_offset
-		mov 	_DAC1H,a
-$00050:	nop
-	__endasm;
-}
-*/
-
 unsigned char CheckSRAMs(void)
 {
 	unsigned char k,j;
@@ -380,6 +315,8 @@ void ContSampling(void)
 	LED=1;
 }
 
+
+/* --------------- Deprecated / Not used -----------------
 void SamplingToSRAM(unsigned char blocks)
 {
 	unsigned char rec_chr,i;
@@ -436,6 +373,7 @@ void SamplingToSRAM(unsigned char blocks)
 	SFRPAGE   = DAC0_PAGE;
 	DAC0CN    = 0x84;
 }
+ ---------------------------------------------- */
 
 void HiSpeedSampling(unsigned int samples) 	// uses DMA
 {
@@ -512,6 +450,7 @@ void putchar(char c)
 	SOut(c);
 }
 
+/* --------------- Deprecated / Not used -----------------
 void test(void)
 {
 	unsigned char c;
@@ -546,13 +485,14 @@ void test(void)
 		printf("%8d\n\r",adc0data);
 	}
 }
+ ----------------------------------------------------- */
 
 /* =====================[ 2CH AND TRANSFER FUNCTION MEASUREMENT ] ===================== */
 void Send_ADC_data() {
 	INT8U i = 0;
 	
 	EA = 0; // no interrupts during data exchange
-	
+
 	// disable ADC
 	SFRPAGE   = ADC0_PAGE;
 	AD0EN = 0;
@@ -591,13 +531,9 @@ void ADC0_irqhandler (void) __interrupt 13 {
 	DEBUG_PORT = 1; // ON
 #endif
 
-
 	AD0INT = 0;	
 	
-	// COMPILE ERROR:
-	// if (samples_to_save != 0) {;}
-	
-	// index check
+	// ------ index check ------ 
 	__asm
 		// if (n >= num_of_samples *2) n = 0; // only works for <127 samples
 		clr	c
@@ -605,9 +541,9 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		rl a					// a *= 2; 
 		dec a					// a--;
 		subb	a,_n
-		jnc	ELSE
+		jnc	01$
 		mov	_n, #0x00
-		ELSE:
+		01$:
 	__endasm;
 	
 	// ------ CH #1 measurement ------ 
@@ -656,13 +592,78 @@ void ADC0_irqhandler (void) __interrupt 13 {
 		inc	_n
 		inc	_n
 	__endasm;
+
 	
-	
+/* ------ Deprecated ADC interrupt ------
+		__asm
+			clr		_AD0INT
+			cpl		_EvenOddSample
+			mov 	a,_ADCConfigOdd
+			jb		_EvenOddSample, 02$
+			mov 	a,_ADCConfigEven
+	02$:	anl 	_P2,#0x87
+			orl 	_P2,a
+			mov 	dpl,_fifo_wp
+			mov 	dph,_fifo_wp+1
+			mov 	a,_adc_select
+			anl 	a,#1
+			jz		05$
+			mov 	_SFRPAGE,#ADC1_PAGE
+			mov 	a,_ADC1H
+			movx 	@dptr,a
+			inc 	dptr
+			mov 	a,_ADC1L
+			movx 	@dptr,a
+			inc 	dptr
+			dec 	_samples_to_save
+	05$:	mov 	a,_adc_select
+			anl 	a,#2
+			jz		06$
+			mov 	_SFRPAGE,#ADC0_PAGE
+			mov 	a,_ADC0H
+			movx 	@dptr,a
+			inc 	dptr
+			mov 	a,_ADC0L
+			movx 	@dptr,a
+			inc 	dptr
+			dec 	_samples_to_save
+	06$:	mov 	_fifo_wp,dpl
+			mov 	_fifo_wp+1,dph
+			mov 	a,_fifo_mode
+			jz		30$
+			mov 	a,_samples_to_save
+			jnz		40$
+			inc 	_fifo_blocks
+	10$:	mov 	_samples_to_save,_fifo_size
+	20$:	ajmp	40$	
+	30$:	mov 	a,_fifo_wp+1	// non fifo mode
+			clr 	c
+			subb 	a,_fifo_max_blocks
+			jc		40$
+			clr 	_EA
+	40$:	mov		a,_DAC0_mode
+			jz 		50$
+			mov 	dptr,#_sinetable
+			mov 	a,_dac_index
+			add 	a,_dac_increment
+			mov 	_dac_index,a
+			movc 	a,@a+dptr
+			mov 	_SFRPAGE,#DAC1_PAGE
+			mov 	b,_dac_amplitude
+			mul		ab
+			mov 	a,b
+			add 	a,_dac_offset
+			mov 	_DAC1H,a
+	50$:	nop
+		__endasm;
+ ------------------------------------------*/
+ 
 #ifdef DEBUG_ON	
 	DEBUG_PORT = 0; // OFF
 #endif	
 }
-/*  =================================================================================== */
+/* =================================================================================== */
+
 
 void main()
 {
@@ -671,28 +672,28 @@ void main()
 	Init_Device();
 	
 	// UART init
-	SFRPAGE   = UART0_PAGE;
-	TI0=1;
-	RI0=0;
-	SFRPAGE   = UART1_PAGE;
-	TI1=1;
-	RI1=0;
+	SFRPAGE = UART0_PAGE;
+	TI0 = 1;
+	RI0 = 0;
+	SFRPAGE = UART1_PAGE;
+	TI1 = 1;
+	RI1 = 0;
 
 	CheckSRAMs();
 
-	adc_select=3;
-	ADCConfigEven=ADCConfigOdd=0;		// adc0 gain and channel selection for every even sample and every odd sample
-	DAC0_mode=0;
-	handshake=1;
+	adc_select = 3;
+	ADCConfigEven = ADCConfigOdd = 0;		// adc0 gain and channel selection for every even sample and every odd sample
+	DAC0_mode = 0;
+	handshake = 1;
+	/* ----- Deprecated ----
 	dac_increment=1;
 	dac_amplitude=255;
 	dac_offset=0;
-	fifo_size=128;	// default number of samples in a block
+	------------------------ */
+	fifo_size = 128;	// default number of samples in a block
 
-//fifo_size=4;	// default number of samples in a block
-//SetSamplingFreq(100);
-
-	for(c=0; c<3; c++)	// flash the power LED three times to indicate booting
+	// flash the power LED three times to indicate booting
+	for(c=0; c<3; c++)	
 	{
 		LED=0;	Delay_ms(200);
 		LED=1;	Delay_ms(200);
@@ -702,6 +703,7 @@ void main()
 
 	RTS=0;
 
+	// enable mux
 	MUX1EN = 1;
 	MUX2EN = 1;
 	
@@ -718,10 +720,10 @@ void main()
 		if (c=='I')
 		{
 			SendID();
-		}	
+		}
 /* ============[ 2CH AND TRANSFER FUNCTION MEASUREMENT ] ========= */
-		// send 2CH measurement data to PC, "S" = send
-		else if (c=='S') {
+		// send 2CH measurement data to PC, "m" = measurement
+		else if (c=='m') {
 			Send_ADC_data();
 		}
 		
@@ -741,13 +743,14 @@ void main()
 			EA = 1; // re-enable interrupts
 		}
 		
-		// set TMR2 RLD value, "f" = frequency
-		else if (c=='f') {
+		// set TMR2 RLD value, "r" = reload
+		else if (c=='r') {
+			SFRPAGE   = TMR2_PAGE;
 			RCAP2H   = SInOut(); // high
 			RCAP2L   = SInOut(); // low
 		}
 		
-		// generate sample signal
+		// generate sample signal, "g" = generate
 		else if (c=='g') {
 		    SFRPAGE   = DAC1_PAGE;
 		    DAC1CN    = 0x84; // Enable DAC
@@ -761,27 +764,29 @@ void main()
 			AD1EN = 1; // Enable ADC1
 		}
 		
-		// select analog switch on external filter panel
+		// set analog switch on external filter panel
 		else if (c=='C') {
 			// 0 = fs < 1200 Hz
 			// 1 = fs > 1200 Hz			
 			FILTER_CONTROL = SInOut() & 1;
 		}
 		
+		/* ----------------- Not used --------------
 		// teszt: mert jel generalasa (ellenorzes)
-		// else if (c=='t') {		
-			// ADC alljon meg kuldes alatt
-			// SFRPAGE   = TMR2_PAGE;
-			// TR2 = 0; // Disable TMR2			
-			// for (i=0; i<num_of_samples *2+2; i++) {
-				// SAMPLES(i) = INPUT_MEASURE(i);
-				// i++;
-				// SAMPLES(i) = INPUT_MEASURE(i);
-			// }			
-			// ADC alljon meg kuldes alatt
-			// SFRPAGE   = TMR2_PAGE;
-			// TR2 = 1; 
-		// }
+		else if (c=='t') {		
+			ADC alljon meg kuldes alatt
+			SFRPAGE   = TMR2_PAGE;
+			TR2 = 0; // Disable TMR2			
+			for (i=0; i<num_of_samples *2+2; i++) {
+				SAMPLES(i) = INPUT_MEASURE(i);
+				i++;
+				SAMPLES(i) = INPUT_MEASURE(i);
+			}			
+			ADC alljon meg kuldes alatt
+			SFRPAGE   = TMR2_PAGE;
+			TR2 = 1; 
+		}
+		------------------------------------------- */
 /* =============================================================== */
 
 /* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
@@ -789,13 +794,16 @@ void main()
 			SOut(P0);
 			SOut(P1);
 		}
-/* =============================================================== */
+/* ======================================================== */
+
+		/* ------------------ Not used ---------------------
 		else if (c=='x')	// switch reference voltage and resistors
 		{
 		}
-		// else if (c=='t')	// set trigger polarity
-		// {
-		// }
+		else if (c=='t')	// set trigger polarity
+		{
+		}
+		--------------------------------------------------- */
 		else if (c=='b')	// set fifo block size (number of samples in a block
 		{
 			fifo_size=SInOut();
@@ -811,10 +819,10 @@ void main()
 			c=SInOut();
 			ADCConfigOdd =  ((c & 1) << 5) | ((c & 2) << 5);
 		}
-		// else if (c=='S') // start sampling, ESC exits
-		// {
-			// ContSampling();
-		// }
+		else if (c=='S') // start sampling, ESC exits
+		{
+			ContSampling();
+		}
 		else if (c=='s') // start sampling, ESC exits
 		{
 			unsigned long n;
@@ -853,12 +861,12 @@ void main()
 			SOut(adc0data >> 8);	// channel 2 or 3
 			SOut(adc0data);
 		}
-		// else if (c=='f') // set freq
-		// {
-			// samplingfreq = SInOut();
-			// samplingfreq = (samplingfreq << 8)+SInOut();
-			// SetSamplingFreq(samplingfreq);
-		// }
+		else if (c=='f') // set freq
+		{
+			samplingfreq = SInOut();
+			samplingfreq = (samplingfreq << 8)+SInOut();
+			SetSamplingFreq(samplingfreq);
+		}
 		else if (c=='P') // set port __bits
 		{
 			P1 = (P1 & 0xF0) | (SInOut() & 0x0F);
@@ -887,12 +895,14 @@ void main()
 			DAC1L=a;
 			DAC1H=c;
 		}
+		/* -------------- Deprecated --------------
 		else if (c=='L') // set DAC parameters
 		{
 			dac_increment = SInOut();
 			dac_amplitude = SInOut();
 			dac_offset = SInOut();
 		}
+		------------------------------------------- */
 		else if (c=='w') // DAC0 wavegenerator off
 		{
 			DAC0_mode=0;
@@ -904,6 +914,7 @@ void main()
 	}
 }
 
+/* ------------ Deprecated --------------------
 unsigned char __code sinetable[] =
 {
 	 128, 131, 134, 137, 140, 144, 147, 150, 153, 156, 159, 162, 165, 168, 171, 174,
@@ -923,3 +934,4 @@ unsigned char __code sinetable[] =
 	  38,  40,  43,  45,  47,  50,  52,  55,  57,  60,  63,  65,  68,  71,  74,  77,
 	  79,  82,  85,  88,  91,  94,  97, 100, 103, 106, 109, 112, 116, 119, 122, 125
 };
+ -------------------------------------------- */
