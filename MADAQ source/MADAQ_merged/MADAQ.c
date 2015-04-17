@@ -445,10 +445,12 @@ void HiSpeedSampling(unsigned int samples) 	// uses DMA
 	LED=1;
 }
 
+/* ---- Not used -------
 void putchar(char c)
 {
 	SOut(c);
 }
+ ------------------------ */
 
 /* --------------- Deprecated / Not used -----------------
 void test(void)
@@ -671,6 +673,7 @@ void main()
 
 	Init_Device();
 	
+	/* --------- Additional config --------- */
 	// UART init
 	SFRPAGE = UART0_PAGE;
 	TI0 = 1;
@@ -706,12 +709,6 @@ void main()
 	// enable mux
 	MUX1EN = 1;
 	MUX2EN = 1;
-	
-	// ------------------------- digital in test ----------------------------
-	P0MDOUT |= 0xFC; // P0_2 - P0_7 open drain
-	P1MDOUT |= 0x0F; // P0_0 - P0_3 open drain
-	P0 &= 0x03; // enable input for ports seen above
-	P1 &= 0xF0;
 	
 	while (1)
 	{
@@ -789,10 +786,24 @@ void main()
 		------------------------------------------- */
 /* =============================================================== */
 
+
 /* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
-		else if (c=='a') {
+		// get port state, "p" = port
+		else if (c=='p') {
 			SOut(P0);
 			SOut(P1);
+		}
+		// config for house heating, "h" = house
+		else if (c=='h'){
+			// 0 = default mode
+			// 1 = house heating HIL mode	
+			if (SInOut() & 1) {
+				P0MDOUT &= 0x03; // P0_2 - P0_7 as open drain
+				P1MDOUT &= 0xF0; // P0_0 - P0_3 as open drain
+				P0 &= 0x03; // enable digital input for ports seen above
+				P1 &= 0xF0;
+			}
+			else Init_Device();
 		}
 /* ======================================================== */
 
