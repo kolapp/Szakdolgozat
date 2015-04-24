@@ -681,6 +681,16 @@ void main()
 	SFRPAGE = UART1_PAGE;
 	TI1 = 1;
 	RI1 = 0;
+	
+	// set DAC to 0V
+	SFRPAGE = DAC0_PAGE;
+	DAC0CN = 0x84;
+	DAC0L = 0x00;
+	DAC0H = 0x80;
+	SFRPAGE = DAC1_PAGE;
+	DAC1CN = 0x84;
+	DAC1L = 0x00;
+	DAC1H = 0x80;
 
 	CheckSRAMs();
 
@@ -799,7 +809,7 @@ void main()
 			// 1 = house heating HIL mode	
 			if (SInOut() & 1) {
 				P0MDOUT &= 0x03; // P0_2 - P0_7 as open drain
-				P1MDOUT &= 0xF0; // P0_0 - P0_3 as open drain
+				P1MDOUT &= 0xF0; // P1_0 - P1_3 as open drain
 				P0 &= 0x03; // enable digital input for ports seen above
 				P1 &= 0xF0;
 			}
