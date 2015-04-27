@@ -55,10 +55,10 @@ void main(void){
 	RI = 0;
 	
 	// config + enable digital input
-	P2MDOUT = 0xFF; // P2_0 - P2_7 as open drain
-	P1MDOUT = 0xF8; // P1_3 - P1_7 as open drain
-	P2 = 0;
-	P1 &= 0x07;
+	// P2MDOUT = 0x00; // P2_0 - P2_7 as open drain
+	// P1MDOUT &= 0x07; // P1_3 - P1_7 as open drain
+	// P2 = 0x00;
+	// P1 &= 0x07;
 	
 	// disable LEDs
 	L4 = 0;
@@ -86,7 +86,7 @@ void main(void){
 			IDA0H=c;
 		}
 		// heater on off indicator
-		L4 = P1_7;
+		// L4 = P1_7;
 	}
 
 }
