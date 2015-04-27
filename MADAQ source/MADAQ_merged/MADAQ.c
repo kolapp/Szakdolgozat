@@ -671,17 +671,7 @@ void main()
 {
 	unsigned char c;
 
-	Init_Device();
-	
 	/* --------- Additional config --------- */
-	// UART init
-	SFRPAGE = UART0_PAGE;
-	TI0 = 1;
-	RI0 = 0;
-	SFRPAGE = UART1_PAGE;
-	TI1 = 1;
-	RI1 = 0;
-	
 	// set DAC to 0V
 	SFRPAGE = DAC0_PAGE;
 	DAC0CN = 0x84;
@@ -691,6 +681,17 @@ void main()
 	DAC1CN = 0x84;
 	DAC1L = 0x00;
 	DAC1H = 0x80;
+	
+	Init_Device();	
+	
+	// UART init
+	SFRPAGE = UART0_PAGE;
+	TI0 = 1;
+	RI0 = 0;
+	SFRPAGE = UART1_PAGE;
+	TI1 = 1;
+	RI1 = 0;
+
 
 	CheckSRAMs();
 
