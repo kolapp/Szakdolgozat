@@ -11,8 +11,8 @@
 #define L4 P0_7
 
 
-INT8U i, c = 0;
-INT8U light[] = {0x08, 0x04, 0x02, 0x01, 0x02, 0x04};
+// INT8U i, c = 0;
+// INT8U light[] = {0x08, 0x04, 0x02, 0x01, 0x02, 0x04};
 
 void Delay_ms(short ms) {
 	short i;
@@ -61,6 +61,8 @@ void main(void){
 	// P1 &= 0x07;
 	
 	// disable LEDs
+	L1 = 0;
+	L2 = 0;
 	L4 = 0;
 	L3 = 0;
 	

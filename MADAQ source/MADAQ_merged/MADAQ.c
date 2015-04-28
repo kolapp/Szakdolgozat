@@ -811,10 +811,10 @@ void main()
 			if (SInOut() & 1) {
 				P0MDOUT &= 0x03; // P0_2 - P0_7 as open drain
 				P1MDOUT &= 0xF0; // P1_0 - P1_3 as open drain
-				P0 &= 0x03; // enable digital input for ports seen above
-				P1 &= 0xF0;
+				// P0 &= 0x03; // enable digital input for ports seen above
+				// P1 &= 0xF0;
 			}
-			else Init_Device();
+			else Port_IO_Init();
 		}
 /* ======================================================== */
 

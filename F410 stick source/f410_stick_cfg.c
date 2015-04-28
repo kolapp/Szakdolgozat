@@ -34,12 +34,12 @@ void DAC_Init()
 
 void Voltage_Reference_Init()
 {
-    REF0CN    = 0x02;
+    REF0CN    = 0x1A;
 }
 
 void Port_IO_Init()
 {
-    // P0.0  -  Skipped,     Open-Drain, Digital
+    // P0.0  -  Skipped,     Open-Drain, Analog
     // P0.1  -  Unassigned,  Open-Drain, Digital
     // P0.2  -  Unassigned,  Open-Drain, Digital
     // P0.3  -  Unassigned,  Open-Drain, Digital
@@ -57,8 +57,8 @@ void Port_IO_Init()
     // P1.6  -  Unassigned,  Open-Drain, Digital
     // P1.7  -  Unassigned,  Open-Drain, Digital
 
-    // P2.0  -  Unassigned,  Open-Drain, Digital
-    // P2.1  -  Unassigned,  Open-Drain, Digital
+    // P2.0  -  Unassigned,  Push-Pull,  Digital
+    // P2.1  -  Unassigned,  Push-Pull,  Digital
     // P2.2  -  Unassigned,  Open-Drain, Digital
     // P2.3  -  Unassigned,  Open-Drain, Digital
     // P2.4  -  Unassigned,  Open-Drain, Digital
@@ -66,7 +66,9 @@ void Port_IO_Init()
     // P2.6  -  Unassigned,  Open-Drain, Digital
     // P2.7  -  Unassigned,  Open-Drain, Digital
 
+    P0MDIN    = 0xFE;
     P0MDOUT   = 0xD0;
+    P2MDOUT   = 0x03;
     P0SKIP    = 0x01;
     XBR0      = 0x01;
     XBR1      = 0x40;
@@ -75,11 +77,6 @@ void Port_IO_Init()
 void Oscillator_Init()
 {
     OSCICN    = 0x87;
-}
-
-void Interrupts_Init()
-{
-    IE        = 0x80;
 }
 
 // Initialization function for device,
@@ -93,5 +90,4 @@ void Init_Device(void)
     Voltage_Reference_Init();
     Port_IO_Init();
     Oscillator_Init();
-    Interrupts_Init();
 }
