@@ -99,10 +99,6 @@ void Init_Device(void)
 
 
 
-
-
-
-
 #define HEATER_ON_OFF 	P2_0
 #define TEMP 			P2_4
 #define DATA_PORT		P0
@@ -110,11 +106,9 @@ void Init_Device(void)
 #define GOMB2			P1_5
 
 
-
 volatile float temp = 0;
 volatile float voltage = 0.0;
 volatile __bit seged = 0;
-
 
 
 void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
@@ -123,8 +117,13 @@ void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
 
 	AD0INT = 0;
 
+// /*
+	// DEBUG
+	DATA_PORT++;	
+	HEATER_ON_OFF = !HEATER_ON_OFF;
+// */
 
-
+	
 /*
 	// 1. feladat
 
@@ -140,10 +139,8 @@ void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
 */
 
 
-
 /*
 	// 2. feladat
-
 	voltage = (float)((ADC0 / 4095.0) * 2.25);
 	temp = 25.0 * voltage - 10.0;
 
@@ -155,21 +152,10 @@ void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
 		HEATER_ON_OFF = 1;
 	}
 */
-	
-	
 
+	
 /*
-	// DEBUG
-	// DATA_PORT = ~DATA_PORT;
-	DATA_PORT++;
-	// DATA_PORT = ~DATA_PORT;
-	
-	HEATER_ON_OFF = !HEATER_ON_OFF;
-*/
-	
-	
-// /*
-	// 3. feladat, a
+	// 3. feladat, potenciometer
 	if(seged == 1) {
 		voltage = (float)((ADC0 / 4095.0) * 2.25);
 		temp = 25.0 * voltage - 10.0;
@@ -183,7 +169,7 @@ void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
 		}
 	}
 	else {
-	//	DATA_PORT = (unsigned char)(ADC0 / 100);	// 3. feladat, a
+	//	DATA_PORT = (unsigned char)(ADC0 / 100);	// 3. feladat, potenciometer
 	}
 	
 	seged = !seged;
@@ -191,10 +177,9 @@ void ACDInterruptHandler(void) __interrupt INT_ADC0_EOC {
 	// kovetkezo meres beallitasa
 	if (seged) ADC0MX = 0x14; // external input at P2_4
 	else ADC0MX = 0x0E; // potenciometer
-// */
+*/
 
 }
-
 
 
 
@@ -205,7 +190,7 @@ void main(void){
 	P2_1 = 0;
 	P2_3 = 0;
 	
-	// 3. feladat, b
+	// 3. feladat, gombnyomas
 	DATA_PORT = 0;
 
 	while(1){
@@ -219,9 +204,5 @@ void main(void){
 			if(DATA_PORT > 0) { DATA_PORT--; }				
 		}
 	}
-
-
-
-
 
 }
