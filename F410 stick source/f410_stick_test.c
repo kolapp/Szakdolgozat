@@ -75,8 +75,8 @@ void main(void){
 		}
 		else if (c=='a') 
 		{
-			SOut(P1);
-			SOut(P2);
+			SOut(~P1);
+			SOut(~P2);
 		}
 		// set IDA0
 		else if (c=='d') 

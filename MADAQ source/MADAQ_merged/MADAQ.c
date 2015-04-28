@@ -801,8 +801,8 @@ void main()
 /* ============[ HIL SIMULATION, HOUSE HEATING ] ========= */
 		// get port state, "p" = port
 		else if (c=='p') {
-			SOut(P0);
-			SOut(P1);
+			SOut(~P0);
+			SOut(~P1);
 		}
 		// config for house heating, "h" = house
 		else if (c=='h'){
